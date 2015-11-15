@@ -1,0 +1,77 @@
+/* line 1, ../sass/chc_topbar.scss */
+.chc-header {
+  border-bottom: solid 1px #25227A;
+}
+/* line 3, ../sass/chc_topbar.scss */
+.chc-header .center {
+  text-align: center;
+}
+/* line 6, ../sass/chc_topbar.scss */
+.chc-header .right {
+  text-align: right;
+  padding-right: 20px;
+}
+/* line 9, ../sass/chc_topbar.scss */
+.chc-header .right img {
+  margin-bottom: 6px;
+}
+
+/* line 14, ../sass/chc_topbar.scss */
+.chc-header div {
+  font-family: source_sans_prosemibold,sans-serif;
+  font-weight: bold;
+  font-size: small;
+}
+
+/* line 20, ../sass/chc_topbar.scss */
+.chc-header div span {
+  color: #EF4521;
+}
+
+/* line 24, ../sass/chc_topbar.scss */
+.top-bar .name h1 {
+  font-family: TRHeavy;
+  font-weight: bold;
+  font-size: small;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* line 32, ../sass/chc_topbar.scss */
+.chc-header .truck {
+  margin-left: auto;
+  margin-top: 10px;
+  height: 80px;
+  width: 240px;
+  background: url("Images/Oil_Tanker_Truck.png");
+  position: relative;
+}
+/* line 40, ../sass/chc_topbar.scss */
+.chc-header .truck p {
+  color: #000000 !important;
+  position: absolute;
+  top: 1.0em;
+  right: 1.0em;
+  font-size: 16px;
+  font-family: 'Arial Narrow';
+  font-weight: bold;
+}
+/* line 48, ../sass/chc_topbar.scss */
+.chc-header .truck p sup {
+  font-size: 10px !important;
+  margin-left: 1px;
+}
+/* line 52, ../sass/chc_topbar.scss */
+.chc-header .truck p sub {
+  font-size: 10px !important;
+}
+
+/* line 59, ../sass/chc_topbar.scss */
+#PricePerGallon sup {
+  font-size: 10px !important;
+  margin-left: 1px;
+}
+/* line 63, ../sass/chc_topbar.scss */
+#PricePerGallon sub {
+  font-size: 10px !important;
+}

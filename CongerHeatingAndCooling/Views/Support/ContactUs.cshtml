@@ -1,0 +1,175 @@
+﻿@model CongerHeatingAndCooling.Models.ContactForm
+@{
+    ViewBag.Title = "Conger's Heating & Cooling | 24 Hour Service | 978.870.4945";
+}
+<div class="row">
+    <div class="large-12 columns">
+        <div class="panel transparent">
+            @using (Html.BeginForm("ContactUs", "Support", FormMethod.Post, new { @id = "SubmitContactUsForm", @data_abide = "ajax" })) {
+            <h1>Contact Us</h1>
+            <p>Please use the form below to get in touch with us. We will reply to your email within 24 - 48 hours depending on the volume of 
+                    mail in our queue,</p>
+            <p>If you would like to give us a call, please call Shawn Conger &#64; <span class="orange" style="font-family: TRHeavy;font-size: small;">978.870.4945</span></p>
+            <div class="panel radius">
+                <h2 class="blue">Please provide us the following information so we can better assist you:</h2>
+                <br />
+                <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>First Name:</span>
+                        </div>
+                        <div class="large-4 columns">
+                            @Html.TextBoxFor(m => m.FirstName, new { @required = "", @pattern = "alpha_numeric", @maxlength = "50",  @placeholder="Enter your first name"})
+                            <small class="error">A valid first name is required.</small>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Last Name:</span>
+                        </div>
+                        <div class="large-4 columns">
+                            @Html.TextBoxFor(m => m.LastName, new { @required = "", @pattern = "alpha_numeric", @maxlength = "50", @placeholder="Enter your last name"})
+                            <small class="error">A valid last name is required.</small>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Email:</span>
+                        </div>
+                        <div class="large-6 columns">
+                            @Html.TextBoxFor(m => m.Email, new { @required = "", @maxlength = "255", @pattern = "email", @placeholder="Enter your email" })
+                            <small class="error">An valid email is required.</small>
+                        </div>
+                        <div class="large-2 columns">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Purpose for Contacting Us:</span>
+                        </div>
+                        <div class="large-4 columns">
+                            <select id="ContactPurpose" name="ContactPurpose">
+                                <option>General Inquiry</option>
+                                <option>Estimates</option>
+                                <option>Service Request</option>
+                                <option>Emergency Service Request</option>
+                            </select>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Additional information:</span>
+                        </div>
+                        <div class="large-8 columns text-center">
+                             @Html.TextAreaFor(model => model.Comments,8,75,new {maxlength="2500" })
+                            <div>@Html.ValidationMessageFor(model => model.Comments)</div>
+                            <div id="charactersRemaining" class="">2500 characters remaining</div>
+                        </div>
+                    </div>    
+                    <br />
+                    <div class="row">
+                        <div class="large-12 columns text-center">
+                            <p>
+                                <button type="submit">Submit</button> <button type="reset">Reset This Form</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="emergencyServiceNoteModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <h4>You have selected Emergency Service Requests as your reason for contacting us. Please enter your telephone number below:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns">
+                        </div>
+                        <div class="large-4 columns">
+                            <p>
+                                @Html.TextBoxFor(m => m.Phone, new { @maxlength = "12", @pattern = @"^\d{3}[-\.\s]\d{3}[-\.\s]\d{4}$", @placeholder="xxx-xxx-xxxx" })
+                            </p>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <p>When you submit this request an SMS Text will be 
+                            sent to one of our technicians in the field and will call you at the provided number. If the timing is extremely urgent,  
+                            <b><i>then please call us directly at 978.870.4945.</i></b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-12 columns text-center">
+                            <p>
+                                <button type="submit">Submit</button> <button type="reset">Reset This Form</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @Html.Partial("_Footer")
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#SubmitContactUsForm").on('valid', function () {
+            if ($("select[id=ContactPurpose] option:selected").text() == "Emergency Service Request") {
+                if ($("#txtPhoneNumber").val().length == 0) {
+                    $('#emergencyServiceNoteModal').foundation('reveal', 'open');  // show dialog
+                    return false;
+                }
+            }
+            $("#SubmitContactUsForm").submit();
+        });
+
+        $("#emergencyServiceNoteModal button").on('click', function () {
+            $('#emergencyServiceNoteModal').foundation('reveal', 'close');
+            $("#SubmitContactUsForm").submit();
+        });
+
+
+        $("#SubmitContactUsForm").bind("reset", function () {
+            var max = 2500;
+            var len = $(this).val().length;
+            var char = max - len;
+
+            $('#charactersRemaining').text(char + ' characters left');
+        });
+
+        $('#Comments').keypress(function (event) {
+            var max = 2500;
+            var len = $(this).val().length;
+
+            if (event.which < 0x20) {
+                // e.which < 0x20, then it's not a printable character
+                // e.which === 0 - Not a character
+                return; // Do nothing
+            }
+
+            if (len >= max) {
+                event.preventDefault();
+            }
+
+        });
+
+        $('#Comments').keyup(function (event) {
+            var max = 2500;
+            var len = $(this).val().length;
+            var char = max - len;
+
+            $('#charactersRemaining').text(char + ' characters left');
+        });
+    });
+
+</script>
+}

@@ -1,0 +1,30 @@
+﻿@model IList<PriceLevel>
+@using CHC.Entities.Services.OilDelivery
+
+@for (int i = 0; i < Model.Count(); i++)
+{   
+    <div class="row price">
+        @Html.HiddenFor( m => Model[i].ID )
+        <div class="large-2 columns">
+            @Html.TextBoxFor( m => Model[i].GallonRangeStart, new { @required = ""} )
+            <small class="error">Please enter your starting gallons for this price.</small>
+        </div>
+        <div class="large-2 columns">
+            @Html.TextBoxFor( m => Model[i].GallonRangeEnd, new { @required = ""} )
+            <small class="error">Please enter your maximum gallons for this price.</small>
+        </div>
+        <div class="large-2 columns">
+            @Html.TextBoxFor( m => Model[i].PricePerGallon, new { @required = ""} )
+            <small class="error">Please enter your price for this range.</small>
+        </div>
+        <div class="large-3 columns text-center">
+            <a href="#">Additional Fees</a> (@Model[i].Fees.Count())
+        </div>
+        <div class="large-3 columns">
+            @if (Model[i] != Model.First())
+            {
+                <button class="delete-price">Delete</button>
+            }
+        </div>
+    </div>   
+}

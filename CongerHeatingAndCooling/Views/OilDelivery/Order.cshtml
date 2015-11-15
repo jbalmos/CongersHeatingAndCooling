@@ -1,0 +1,239 @@
+﻿@model CongerHeatingAndCooling.Models.OilDelivery.OrderFormModel
+@{
+    ViewBag.Title = "Conger's Heating & Cooling | 24 Hour Service | 978.870.4945";
+}
+
+    @using (Html.BeginForm("Order", "OilDelivery", FormMethod.Post, new { @id = "orderForm", @data_abide = "ajax" })) {
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="panel transparent">
+                <h1>Request Delivery</h1>
+                <div class="panel radius">
+                    <h2 class="blue">Tell Us How Much You Need</h2>
+                    <div id="OrderForm">Please enter your zip code.</div>
+                </div>
+                <div class="panel radius">
+                    <h2 class="blue">Tell Us Where You Need It Delivered</h2>
+                    <br />
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Filler Pipe Location:</span>
+                        </div>
+                        <div class="large-3 columns">
+                            @Html.DropDownList( "FillerPipeLocations",  Model.FillerPipeLocations, "Please choose", new { @required = ""} )
+                            <small class="error">Please select a filler pipe location.</small>
+                        </div>
+                        <div class="large-5 columns">
+                            Please show us the fill location of the pipe for your tank. If possible, also mark the cap for your pipe with a piece of tape or note that says "CHC".
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                           <span>Delivery Address Phone:</span>
+                        </div>
+                        <div class="large-3 columns">
+                            @Html.TextBoxFor( m => m.Phone, new { @required = "", @maxlength = "12",  @placeholder="xxx-xxx-xxxx", @pattern=@"^\d{3}[-\.\s]\d{3}[-\.\s]\d{4}$"} )
+                            <small class="error">A valid phone number is required.</small>
+                        </div>
+                        <div class="large-5"></div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Attention/Address Line:</span>
+                        </div>
+                        <div class="large-8 columns">
+                            @Html.TextBoxFor( m => m.Address1, new { @required = "", @maxlength = "255", @placeholder="Enter your address"} )
+                            <small class="error">An address is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Second Address Line:</span>
+                        </div>
+                        <div class="large-8 columns">
+                            @Html.TextBoxFor(m => m.Address2, new { @maxlength = "255" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Town/City:</span>
+                        </div>
+                        <div class="large-2 columns">
+                            @Html.TextBoxFor( m => m.City, new { @readonly = true, @pattern = "alpha", @maxlength = "128" } )
+                        </div>
+                        <div class="large-1 columns text-right field-label">
+                            <span>State:</span>
+                        </div>
+                        <div class="large-1 columns">
+                            @Html.TextBoxFor( m => m.State, new { @readonly = true, @pattern = "alpha", @maxlength = "2" } )
+                        </div>
+                        <div class="large-1 columns text-right field-label">
+                            <span>Zip:</span>
+                        </div>
+                        <div class="large-2 columns">
+                            @Html.TextBoxFor( m => m.Zip, new {@maxlength = 5, @pattern = "number", @required = ""} )
+                            <small class="error">A valid zip code is required.</small>
+                        </div>
+                        <div class="large-1 columns"></div>
+                    </div>
+                </div>
+                <div class="panel radius">
+                    <h2 class="blue">Tell Us About You</h2>
+                    <br />
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>First Name:</span>
+                        </div>
+                        <div class="large-4 columns">
+                            @Html.TextBoxFor(m => m.FirstName, new { @required = "", @maxlength = "50",  @placeholder="Enter your first name"})
+                            <small class="error">A valid first name is required.</small>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Last Name:</span>
+                        </div>
+                        <div class="large-4 columns">
+                            @Html.TextBoxFor(m => m.LastName, new { @required = "", @maxlength = "50", @placeholder="Enter your last name"})
+                            <small class="error">A valid last name is required.</small>
+                        </div>
+                        <div class="large-4 columns">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Email:</span>
+                        </div>
+                        <div class="large-8 columns">
+                            @Html.TextBoxFor(m => m.Email, new { @required = "", @maxlength = "255", @pattern = "email", @placeholder="Enter your email" })
+                            <small class="error">An valid email is required.</small>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns text-right field-label">
+                            <span>Mobile:</span>
+                        </div>
+                        <div class="large-3 columns">
+                            @Html.TextBoxFor(m => m.Mobile, new { @required = "", @maxlength = "12",  @placeholder="xxx-xxx-xxxx", @pattern=@"^\d{3}[-\.\s]\d{3}[-\.\s]\d{4}$"})
+                            <small class="error">A valid phone number is required.</small>
+                        </div>
+                        <div class="large-5 columns">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="large-12 columns text-center">
+                            <button type="submit" title="Place Order" id="SubmitOrder">Place Order</button>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+    </div>
+    }
+<div id="zipModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <h3 id="modalTitle">Lets Get Started</h3>
+    <!--
+     <div class="row">
+        <div class="large-6 columns text-right">
+            If you have ordered before:
+        </div>
+        <div class="large-6 columns">
+            <input id="ExistingCustomerEmail" type="text" maxlength="5" title="Zip code" pattern="email" placeholder="Enter your email" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns text-center">
+            <p><strong>- OR -</strong></p>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="large-6 columns text-right">
+            If you are a new customer:
+        </div>
+        <div class="large-3 columns">
+            <input id="ZipCode" type="text" maxlength="5" title="Zip code" pattern="number" placeholder="Enter your zip " />
+        </div>
+        <div class="large-3 columns"/>
+    </div>
+    <div class="row">
+        <div class="large-12 columns text-center">
+            <button>Continue</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns text-center">
+            <h4>We will contact you to confirm this order before any delivery is made.</h4>
+        </div>
+    </div>
+</div>
+
+<div id="confirmationModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <h2 id="modalTitle">Thank you for your order!</h2>
+    <div class="row">
+        <div class="large-12 columns">
+            We have received your order and will begin processing it immediately. We will contact you to confirm the appointment delivery time and location.
+            Prices are estimates only and subject to vary based on payment method and final total volume of oil delivered. A final bill will be calculated and
+            presented upon completion of delivery.
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-12 columns text-center">
+            <button>Close</button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script type="text/javascript">
+    $(function () {
+        $('#zipModal').foundation('reveal', 'open');
+        $('#zipModal button').on('click', function() {
+            $('#zipModal').foundation('reveal', 'close');
+            var zipCode = $('#ZipCode').val();
+            $('#OrderForm').load('@Url.Action("GetPricing", "OilDelivery")?zipCode=' + zipCode);
+            $('#Zip').val(zipCode);
+        });
+        $("#Zip").on('focus', function () {
+            $('#zipModal').foundation('reveal', 'open');
+        });
+        $('#confirmationModal button').on('click', function () {
+            $('#confirmationModal').foundation('reveal', 'close');
+            window.location.href = '@Url.Action("Home", "Company")';
+        });
+        $("#orderForm").on('valid', function () {
+            $('#confirmationModal').foundation('reveal', 'open');
+
+            var orderFormModel = { 
+                Email: $('#Email').val(),
+                FirstName: $('#FirstName').val(),
+                LastName: $('#LastName').val(),
+                Mobile: $('#Mobile').val(),
+                Address1: $('#Address1').val(),
+                Address2: $('#Address2').val(),
+                City: $('#City').val(),
+                State: $('#State').val(),
+                Zip: $('#Zip').val(),
+                Phone: $('#Phone').val(),
+                FillerPipeLocation: $('#FillerPipeLocations option:selected').text(),
+                TankSize: priceEstimator.getTankSize(),
+                TankLevel: priceEstimator.getTankLevel(),
+                OilDeliveryPriceLevelID: priceEstimator.getCurrentPriceRange().ID,
+                RequiresBurnerPriming: priceEstimator.getTankLevel() == 0,
+                EstimatedGallons: priceEstimator.getEstimatedGallons(),
+            };
+
+            $.ajax({
+                url: '@Url.Action("Order", "OilDelivery")',
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(orderFormModel),
+                dataType: "json"
+            });
+        });
+    });
+</script>
+}

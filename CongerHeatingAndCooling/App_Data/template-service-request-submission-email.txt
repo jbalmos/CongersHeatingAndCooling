@@ -1,0 +1,16 @@
+﻿Customer: 
+{FirstName} {LastName}
+{Phone}
+{Email}
+
+Request Type: 
+{rblRequestType}
+
+Preferred Contact Time: 
+{ContactTime}
+
+Services Requested:
+{rblServiceItem}
+
+Additional Comments:
+{Comments}

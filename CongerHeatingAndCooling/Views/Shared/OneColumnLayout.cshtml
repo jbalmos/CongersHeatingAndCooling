@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_Header")
+<section class="main block">
+   <div class="page-content">
+    @RenderBody()
+   </div>
+</section>
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+}

@@ -1,0 +1,2 @@
+﻿Customer inquiry regarding {ContactPurpose}: {FirstName} {LastName} : {Email}
+Please refer to email for complete details.

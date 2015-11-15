@@ -1,0 +1,98 @@
+@font-face {
+  font-family: TRHeavy;
+  src: url("Fonts/trheavy.ttf"), url("Fonts/trheavy.eot");
+  /* IE9 */
+}
+@font-face {
+  font-family: source_sans_prosemibold;
+  src: url("Fonts/SourceSansPro-Semibold.otf");
+}
+/* line 14, ../sass/chc.scss */
+body {
+  background: url("Images/Backgrounds/background2-blur.jpg") no-repeat fixed top;
+  padding-top: 10px;
+  font-size: smallest;
+}
+
+/* line 20, ../sass/chc.scss */
+.transparent {
+  background: rgba(255, 255, 255, 0.75);
+  background-color: none;
+}
+
+/* line 25, ../sass/chc.scss */
+h1 {
+  font-family: TRHeavy;
+  color: #036 !important;
+  font-size: xx-large;
+}
+
+/* line 31, ../sass/chc.scss */
+h2 {
+  font-family: source_sans_prosemibold;
+  color: #EF4521 !important;
+  font-size: large;
+}
+
+/* line 37, ../sass/chc.scss */
+h3 {
+  color: #EF4521 !important;
+  font-family: TRHeavy;
+  font-size: small;
+}
+
+/* line 43, ../sass/chc.scss */
+h4 {
+  font-family: source_sans_prosemibold;
+  color: #036 !important;
+  font-size: small;
+}
+
+/* line 49, ../sass/chc.scss */
+h6 {
+  font-size: xx-small;
+}
+
+/* line 53, ../sass/chc.scss */
+.footer p {
+  font: 65% Arial,Helvetica,sans-serif;
+  margin: 8px;
+  text-align: center;
+}
+
+/* line 59, ../sass/chc.scss */
+.black {
+  color: #000000 !important;
+}
+
+/* line 63, ../sass/chc.scss */
+.orange {
+  color: #EF4521 !important;
+}
+
+/* line 67, ../sass/chc.scss */
+.blue {
+  color: #036 !important;
+}
+
+/* line 71, ../sass/chc.scss */
+.flow {
+  -webkit-column-count: 4;
+  /* Chrome, Safari, Opera */
+  -moz-column-count: 4;
+  /* Firefox */
+  column-count: 4;
+}
+
+/* line 77, ../sass/chc.scss */
+.bolded {
+  font-family: source_sans_prosemibold;
+}
+
+/* line 81, ../sass/chc.scss */
+.field-label {
+  padding-top: 10px !important;
+  color: #EF4521 !important;
+  font-family: TRHeavy;
+  font-size: small;
+}

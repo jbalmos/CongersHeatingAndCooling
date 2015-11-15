@@ -1,0 +1,164 @@
+﻿@model CongerHeatingAndCooling.Models.Manage.PricingTierModel
+@using CHC.Entities.Services.OilDelivery
+@{
+    var check = Session["IsLoggedIn"] as string;
+}
+
+@if (String.IsNullOrEmpty(check))
+{
+<div class="row">
+    <div class="large-12 columns">
+        <div class="panel transparent">
+             @using (Html.BeginForm("Login", "Manage", FormMethod.Post, new { @id = "LoginForm", @data_abide="" })) {
+            <h1>Pricing &amp; Delivery Zone Management</h1>
+            <br />
+            <br />
+             <div class="row">
+                <div class="large-4 columns field-label text-right">
+                    Enter Username:
+                </div>
+                <div class="large-4 columns">
+                    <input type="text" id="Username" name="Username" required />
+                    <small class="error">Please enter your username.</small>
+                </div>
+                <div class="large-2 columns">
+                </div>
+            </div>
+            <div class="row">
+                 <div class="large-4 columns field-label text-right">
+                    Enter Password:
+                </div>
+                <div class="large-4 columns">
+                    <input type="password" id="Password" name="Password" required />
+                    <small class="error">Please enter your password.</small>
+                </div>
+                <div class="large-2 columns">
+                </div>
+            </div>
+            <div class="row">
+                 <div class="large-12 columns field-label text-center">
+                     <button type="submit">Login</button>
+                 </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+             }
+        </div>
+    </div>
+</div>
+} else {
+<div class="row">
+    <div class="large-12 columns">
+        <div class="panel transparent">
+             @using (Html.BeginForm("Pricing", "Manage", FormMethod.Post, new { @id = "PricingForm", @data_abide="" })) {
+            <h1>Pricing &amp; Delivery Zone Management</h1>
+            <br />
+            @Html.HiddenFor( m => m.PricingTier.ID )
+             <div class="row">
+                <div class="large-4 columns field-label">
+                    Price Model Name
+                </div>
+                <div class="large-3 columns field-label">
+                    Burner Restart Fee
+                </div>
+                <div class="large-4 columns field-label">
+                    Credit Card Surcharge
+                </div>
+                <div class="large-1 columns field-label">
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-4 columns">
+                    @Html.TextBoxFor( m => m.PricingTier.Description )
+                </div>
+                <div class="large-2 columns">
+                    @Html.TextBoxFor( m => m.PricingTier.BurnerPrimingFee )
+                </div>
+                <div class="large-1 columns">&nbsp;
+                </div>
+                <div class="large-1 columns">
+                    @Html.TextBoxFor( m => m.PricingTier.CreditCardSurcharge )
+                </div>
+                <div class="large-4 columns">
+                    %
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-2 columns field-label">
+                    Starting Gallons
+                </div>
+                <div class="large-2 columns field-label">
+                    Ending Gallons
+                </div>
+                <div class="large-2 columns field-label">
+                    Price
+                </div>
+                <div class="large-6 columns field-label">
+                </div>
+            </div>
+            @Html.EditorFor( m => m.PriceLevels, "PriceLevel" )
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <button id="AddPrice">+ Add Price</button>
+                    <button id="SavePricing">Save</button>
+                </div>
+            </div>
+            <h3>Below are the active towns in the current delivery area.</h3>
+            
+             <div class="flow">
+                <ul>            
+                    @foreach( string townName in Model.ServiceAreas.ToList().Select( t => t.Town.Name ).Distinct() ){
+                        <li>@townName</li>
+                    }
+                </ul>
+            </div>
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <button id="AddTown">+ Add Town</button>
+                    <button id="Remove Town">- Remove Town</button>
+                 </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}
+@section scripts {
+<script type="text/javascript">
+    $(function () {
+        $('#AddPrice').on('click', function (event) {
+            event.preventDefault();
+            var row = $('.price:last');
+            var clone = row.clone();
+            
+            $.each(clone.find('input'),
+                function (index, value) {
+                    var input = $(value);
+                    var index = parseInt(input.attr("id").match(/\d+/g), 10) + 1;
+                    input.attr('id', input.attr('id').replace(/\d+/g, index));
+                    input.attr('name', input.attr('name').replace(/\d+/g, index));
+                    input.attr('value', '');
+                }
+            );
+            var deleteButton = clone.find('button');
+            deleteButton.on('click', function (event) {
+                event.preventDefault();
+                var row = $(this).closest('.price').remove();
+                return false;
+            });
+            clone.insertAfter(row);
+            return false;
+        });
+        $('#SavePricing').on('click', function () {
+        });
+        $('.delete-price').on('click', function (event) {
+            event.preventDefault();
+            var row = $(this).closest('.price').remove();
+            return false;
+        });
+    });
+</script>
+}

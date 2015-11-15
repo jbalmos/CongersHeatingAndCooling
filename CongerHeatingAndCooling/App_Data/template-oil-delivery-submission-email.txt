@@ -1,0 +1,18 @@
+﻿Customer: 
+	{FirstName} {LastName}
+	{Mobile}
+	{Email}
+
+Delivery Address:
+	{Address1}
+	{Address2}
+	{City}, {State} {Zip}
+	{Phone}
+
+Order Details:
+	Estimated Gallons:	{EstimatedGallons}
+	Fill Pipe Location:	{FillerPipeLocation}
+	Burner Priming:		{RequiresBurnerPriming}
+	Tank Size:			{TankSize}
+	Tank Level:			{TankLevel}
+	Quoted PPG:			{QuotedPricePerGallon}

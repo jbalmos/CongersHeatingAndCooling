@@ -1,0 +1,214 @@
+﻿@model CongerHeatingAndCooling.Models.OilDelivery.PricingModel
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="large-6 columns text-center">
+        <h3>Estimated Tank Size</h3>
+    </div>
+    <div class="large-6 columns text-center">
+        <h3>Estimated Fuel Level</h3>
+    </div>
+</div>
+ <div class="row">
+    <div class="large-4 columns text-right">
+        <br />
+        <img src="~/Content/Images/domestic-oil-tank.png" style="margin-right: 20px;" />
+    </div>
+    <div class="large-3 columns">
+       <div class="range-slider vertical-range round tank-size" data-slider data-options="vertical: true;display_selector: #sliderOutputSize;start: @Model.MinGallons; end:@Model.MaxGallons;step: 5;">
+            <span class="range-slider-handle" role="slider" tabindex="0"></span>
+            <span class="range-slider-active-segment"></span>
+            <input type="hidden">
+        </div>
+    </div>
+    <div class="large-2 columns text-right">
+        <br />
+        <img src="~/Content/Images/fuel-gauge.png" />
+    </div>
+    <div class="large-3 columns">
+        <div style="margin-left: 30px;">
+       <div class="range-slider vertical-range round tank-level" data-slider data-options="vertical: true;display_selector: #sliderOutputLevel;">
+            <span class="range-slider-handle" role="slider" tabindex="0"></span>
+            <span class="range-slider-active-segment"></span>
+            <input type="hidden">
+        </div>
+            </div>
+    </div>
+</div>
+<div class="row">
+    <div class="large-6 columns text-center blue">
+        <strong><span id="sliderOutputSize"></span> gallons</strong>
+    </div>
+    <div class="large-6 columns text-center blue">
+        <strong><span id="sliderOutputLevel"></span>&#37;</strong>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="large-6 columns text-right field-label">
+        <span>Estimated Gallons:</span>
+    </div>
+    <div class="large-6 columns" style="padding-top:8px;">
+       <span id="TotalGallons" /> gal 
+        @if(Model.ShowPricing) {
+        <text>&#64; <strong class="blue">$<span id="PricePerGallon" /></strong> per gallon</text>
+        }
+    </div>
+
+</div>
+<div class="row">
+     <div class="large-12 columns text-center">
+        <small><i><span id="Disclaimers" /></i></small>
+    </div>
+</div>
+@if( Model.ShowPricing ) {
+<div class="row">
+    <div class="large-6 columns text-right field-label">
+        <span>Estimated Total:</span>
+    </div>
+    <div class="large-6 columns" style="padding-top:8px;">
+       <strong>$<span id="TotalEstimate" /></strong>
+    </div>
+</div>
+}
+<div class="row additional-fees hide">
+     <div class="large-6 columns text-right field-label">
+        <span>Additional Fees:</span>
+    </div>
+    <div class="large-6 columns" style="padding-top:8px;">
+        <ul class="fees"/>        
+    </div>
+</div>
+
+<script type="text/javascript">
+    var priceEstimator = {
+        init: function (settings) {
+            priceEstimator.config = {
+                tankSize: $('.tank-size'),
+                tankLevel: $('.tank-level'),
+                totalGallons: $('#TotalGallons'),
+                disclaimers: $('#Disclaimers'),
+                pricePerGallon: $('#PricePerGallon'),
+                totalEstimate: $('#TotalEstimate'),
+                fees: $('.fees'),
+                feesDiv: $('.additional-fees')
+            };
+
+            // allow overriding the default config with runtime values
+            $.extend(priceEstimator.config, settings);
+
+            priceEstimator.setup();
+        },
+        setup: function () {
+            priceEstimator.config.tankSize.foundation('slider', 'set_value', 275);
+
+            priceEstimator.config.tankSize.on('change', function () {
+                priceEstimator._calculateTotalGallons();
+            });
+            priceEstimator.config.tankLevel.on('change', function () {
+                priceEstimator._calculateTotalGallons();
+            });
+            priceEstimator._calculateTotalGallons();
+        },
+        _calculateTotalGallons: function () {
+            priceEstimator._enforceMinimumGallons();
+            var estimatedGallons = priceEstimator.getEstimatedGallons();
+            priceEstimator.config.totalGallons.text(estimatedGallons);
+
+            var selectedPriceRange;
+            if(priceEstimator.config.showPricing) {
+                selectedPriceRange = priceEstimator._getCurrentPriceRange( estimatedGallons );
+                priceEstimator._showPricing( selectedPriceRange, estimatedGallons );
+            }
+
+            var tankLevel = parseInt(priceEstimator.getTankLevel());
+            priceEstimator._showAdditionalFees(selectedPriceRange, (tankLevel == 0));
+        },
+        _enforceMinimumGallons: function () {
+            
+            var estimatedGallons = priceEstimator.getEstimatedGallons();
+        
+            priceEstimator.config.disclaimers.html('');
+            if(priceEstimator.config.pricing[0]) {
+                var minimumOrder = parseInt(priceEstimator.config.pricing[0].GallonRangeStart);
+                if (estimatedGallons < minimumOrder ) {
+                    var tankSize = parseInt(priceEstimator.getTankSize())
+                    var newValue = ( 100 - Math.floor( (minimumOrder / tankSize ) * 100 ) );
+                    if( newValue < 0 ) { newValue = 0; }
+                    if( newValue > 100 ) { newValue = 100; }
+                    priceEstimator.config.tankLevel.foundation('slider', 'set_value', newValue);
+                    priceEstimator.config.disclaimers.html('This is the minimum delivery amount.');
+                }
+            } else {
+                priceEstimator.config.disclaimers.html('The zip code ' + $('#Zip').val() + ' is outside of our service area. We will call the primary contact number below to confirm delivery availability and pricing.');
+            }
+        },
+        _showPricing: function( priceRange, estimatedGallons ) {
+            if(priceRange) {
+                priceEstimator.config.pricePerGallon.html( priceEstimator._formatHtmlFractionalPrice(priceRange.PricePerGallon.toFixed(3) ) );
+                var total = priceRange.PricePerGallon * estimatedGallons;
+                priceEstimator.config.totalEstimate.html( total.toFixed(2) );
+            } else {
+                priceEstimator.config.pricePerGallon.html( '' );
+                priceEstimator.config.totalEstimate.html( '' );
+            }
+        },
+        _formatHtmlFractionalPrice: function( pricePerGallon ) {
+            debugger;
+            var priceLeft = pricePerGallon.substring(0, (pricePerGallon.indexOf(".") + 3));
+            var priceRight = pricePerGallon.length > 4 ? pricePerGallon.substring((pricePerGallon.indexOf(".") + 3), (pricePerGallon.length )) : "0";
+
+            return priceRight == "0" ? priceLeft : priceLeft + "<sup>" + priceRight + "</sup>&#8260;<sub>10</sub>";
+        },
+        _showAdditionalFees: function(priceRange, emptyTank) {
+            var show = emptyTank;
+            if(priceRange) {
+                priceEstimator.config.fees.empty();                  
+                if(emptyTank) {
+                    priceEstimator.config.fees.append( '<li><i><strong>' + priceEstimator.config.burnerPrimingFee + '</strong></i> Burner Priming Fee for System Restart</li>' );
+                }
+                $.each( priceRange.Fees, function ( j, fee ) {
+                    priceEstimator.config.fees.append( '<li><i><strong>$' + fee.Fee.toFixed(2) + '<strong></i> ' + fee.Description + '</li>' );
+                    show = true;
+                } );
+            }
+            priceEstimator.config.feesDiv.toggleClass('hide', !show);
+        },
+        _getCurrentPriceRange: function( estimatedGallons ) {
+            var currentPrice;
+            $.each( priceEstimator.config.pricing, function( i, price ) {
+                if(estimatedGallons >= price.GallonRangeStart &&  estimatedGallons <= price.GallonRangeEnd )
+                {
+                    currentPrice = price;
+                }
+            });
+            return currentPrice;
+        },
+        getCurrentPriceRange: function() {
+            return priceEstimator._getCurrentPriceRange( priceEstimator.getEstimatedGallons() );
+        },
+        getEstimatedGallons: function() {
+            var tankLevel = priceEstimator.getTankLevel();
+            var tankSize = priceEstimator.getTankSize();
+            return Math.ceil(tankSize - (tankSize * tankLevel) / 100);
+        },
+        getTankLevel: function() {
+            return parseInt(priceEstimator.config.tankLevel.attr('data-slider'));
+        },
+        getTankSize: function() {
+            return parseInt(priceEstimator.config.tankSize.attr('data-slider'));
+        }
+    };
+
+    $(function () {
+        $('#City').val('@Model.Town');
+        $(document).foundation('slider', 'reflow');
+
+        priceEstimator.init({ 
+            showPricing: @(Model.ShowPricing ? "true" : "false" ),
+            burnerPrimingFee: '@String.Format("{0:C}", Model.BurnerPrimingFee)',
+            pricing: @Html.Raw(Model.PricingLevelJson)
+        });
+    });
+</script>

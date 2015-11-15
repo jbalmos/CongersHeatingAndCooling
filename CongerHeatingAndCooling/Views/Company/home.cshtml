@@ -1,0 +1,54 @@
+﻿@model CongerHeatingAndCooling.Models.HomeModel
+@{
+    ViewBag.Title = "Conger's Heating & Cooling | 24 Hour Service | 978.870.4945";
+}
+<div class="row">
+    <div class="large-12 columns">
+        <div class="panel transparent">
+            <div class="row">
+                <div class="large-8 columns">
+                    <h1><span class="black">Welcome to Conger's</span><br /> <span class="orange">Heating</span> <span class="black">&amp;</span> <span class="blue">Cooling</span></h1>
+                    <h2>Whether looking to repair, replace, or install, we do it all!</h2>
+                </div>
+                <div class="large-4 columns">
+                    <ul class="bolded">
+                        <li>10 Lakeshore Drive, Leominster, MA</li>
+                        <li><span class="blue">978.</span><span class="orange">870</span><span class="blue">.4945</span></li>
+                        <li>Free Estimates</li>
+                        <li>Open from 8 a.m. - 4 p.m.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-5 columns">
+                    <p>Don't forget to have your heating system tuned up. They always seem to break down on weekends or the holidays when the rates are higher!</p>
+
+                    <p>
+                        Over 15 years of experience with all manner of heating and cooling systems expertise, Conger's Heating &amp; Cooling is the
+                        company you can trust for your home climate needs. Please also review our additional services we provide from our
+                        <a href="~/Company/Services">services directory</a>.
+                    </p>
+                    <h4>Like us on Facebook!</h4>
+                    <div class="fb-like" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+                </div>
+                <div class="large-7 columns">
+                    <img src="~/Content/Images/oil-hvac-trucks.jpg" alt="Conger's Heating &amp; Cooling 978-870-4945" border="0" />
+                </div>
+            </div>
+            <br />
+            <div class="panel radius">
+                <h2>Proudly Serving the Following Communities</h2>
+                <div class="flow">
+                    <ul>            
+                        @foreach( string town in Model.ServiceAreas) {
+                            <li>@town</li>
+                        }
+                    </ul>
+                </div>
+                <p>Don't see your town listed in our service area? Give us a call at <b>978.870.4945</b> or <a href="~/Support/ContactUs">contact us</a> 
+                and we will be more than happy to assist you and add your town to our growing list!</p>
+            </div>
+            @Html.Partial("_Footer")
+        </div>
+    </div>
+</div>

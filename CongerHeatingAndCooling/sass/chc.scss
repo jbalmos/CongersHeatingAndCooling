@@ -1,0 +1,86 @@
+@font-face
+{
+    font-family: TRHeavy;
+    src: url('Fonts/trheavy.ttf'),
+         url('Fonts/trheavy.eot'); /* IE9 */
+}
+
+@font-face
+{
+	font-family: source_sans_prosemibold;
+	src: url('Fonts/SourceSansPro-Semibold.otf');
+}
+
+body {
+  background: url("Images/Backgrounds/background2-blur.jpg") no-repeat fixed top;
+  padding-top: 10px;
+  font-size: smallest;
+}
+
+.transparent{
+  background:rgba(255,255,255,0.75);
+  background-color: none;
+}
+
+h1 {
+    font-family: TRHeavy;
+    color: #036 !important;
+	font-size: xx-large;
+}
+
+h2 {
+    font-family: source_sans_prosemibold;
+    color: #EF4521 !important;
+	font-size: large;
+}
+
+h3 {
+	color: #EF4521 !important;
+	font-family: TRHeavy;
+	font-size: small;
+}
+
+h4 {
+    font-family: source_sans_prosemibold;
+    color: #036 !important;
+	font-size: small;
+}
+
+h6 { 
+	font-size: xx-small;
+}
+
+.footer p {
+	font: 65% Arial,Helvetica,sans-serif;
+	margin: 8px;
+	text-align:center;
+}
+
+.black {
+    color: #000000 !important;
+}
+
+.orange {
+    color: #EF4521 !important;
+}
+
+.blue {
+    color: #036 !important;
+}
+
+.flow {
+	-webkit-column-count: 4; /* Chrome, Safari, Opera */
+    -moz-column-count: 4; /* Firefox */
+    column-count: 4;
+}
+
+.bolded {
+	font-family: source_sans_prosemibold;
+}
+
+.field-label {
+	padding-top:10px !important;
+	color: #EF4521 !important;
+	font-family: TRHeavy;
+	font-size: small;
+}
