@@ -55,9 +55,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customers\Account.cs" />
     <Compile Include="Customers\ContactRequest.cs" />
     <Compile Include="Customers\Customer.cs" />
     <Compile Include="Customers\Address.cs" />
+    <Compile Include="Customers\Map\AccountMap.cs" />
     <Compile Include="Customers\OilTank.cs" />
     <Compile Include="Customers\Map\AddressMap.cs" />
     <Compile Include="Customers\Map\CustomerMap.cs" />

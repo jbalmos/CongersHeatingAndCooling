@@ -66,8 +66,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AbstractDbRepository.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="Repositories\Customers\DefaultAccountRepository.cs" />
     <Compile Include="Repositories\Customers\DefaultCustomerRepository.cs" />
     <Compile Include="Repositories\Customers\DefaultFillPipeLocationRepository.cs" />
+    <Compile Include="Repositories\Customers\IAccountRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultDeliveryRequestRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultPriceLevelRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultPricingTierRepository.cs" />

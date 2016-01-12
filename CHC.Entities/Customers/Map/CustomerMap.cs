@@ -9,7 +9,9 @@ namespace CHC.Entities.Customers.Map
             this.HasKey(obj => obj.ID);
             this.Property(obj => obj.ID).HasColumnName("CustomerID");
             this.HasMany(obj => obj.Addresses).WithOptional().HasForeignKey(a => a.CustomerID);
-            this.ToTable("tblCustomer");
+				this.HasOptional(obj => obj.Account)
+					.WithOptionalPrincipal(a => a.Customer).Map(a => a.MapKey("CustomerID"));
+			this.ToTable("tblCustomer");
 		}
     }
 }

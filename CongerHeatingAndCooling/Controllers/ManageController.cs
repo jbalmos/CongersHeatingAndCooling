@@ -1,11 +1,14 @@
-﻿using CHC.Common.Repositories.OilDelivery;
+﻿using AutoMapper;
 using CongerHeatingAndCooling.Models.Manage;
 using CHC.Common.Extensions;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using CHC.Entities.Customers;
 using CHC.Entities.Services.OilDelivery;
-using AutoMapper;
+using CHC.Common.Repositories.Customers;
+using CHC.Common.Repositories.OilDelivery;
+
 
 namespace CongerHeatingAndCooling.Controllers
 {
@@ -13,23 +16,47 @@ namespace CongerHeatingAndCooling.Controllers
 	{
 		readonly IServiceAreaTownRepository serviceAreaTownRepo;
 		readonly IPricingTierRepository pricingTierRepo;
+		readonly IAccountRepository accountRepo;
 
 		public ManageController(IServiceAreaTownRepository serviceAreaTownRepo,
-			 IPricingTierRepository pricingTierRepo )
+			 IPricingTierRepository pricingTierRepo,
+			 IAccountRepository accountRepo )
 		{
 			this.serviceAreaTownRepo = serviceAreaTownRepo;
 			this.pricingTierRepo = pricingTierRepo;
+			this.accountRepo = accountRepo;
       }
 
 		[HttpPost]
 		public ActionResult Login(LoginModel model)
 		{
-			if (model.Username == "jeremy" && model.Password == "password")
+			var account = accountRepo.Login(model.Username, model.Password, this.Request.UserHostAddress);
+
+			if (account == null || account.Type != AccountType.SysAdmin)
+			{
+				Session["IsLoggedIn"] = null;
+				Session["Account"] = null;
+			} else
 			{
 				Session["IsLoggedIn"] = "True";
+				Session["Account"] = account;
 				return RedirectToAction("Pricing");
 			}
 			return View("Pricing", model);
+		}
+
+		public ActionResult Logout()
+		{
+			Session["IsLoggedIn"] = null;
+			Session["Account"] = null;
+			return View("Pricing");
+		}
+
+		[HttpPost]
+		public JsonResult ChangePassword(int accountID, string oldPassword, string newPassword)
+		{
+			bool success = accountRepo.ResetPassword(accountID, oldPassword, newPassword);
+			return Json(new { Success = success, ErrorMessage = success ? "" : "Unable to reset your password" });
 		}
 
 		[HttpPost]
