@@ -5,6 +5,7 @@
 {   
     <div class="row price">
         @Html.HiddenFor( m => Model[i].ID )
+        @Html.HiddenFor(m => Model[i].OilDeliveryPricingTierID)
         <div class="large-2 columns">
             @Html.TextBoxFor( m => Model[i].GallonRangeStart, new { @required = ""} )
             <small class="error">Please enter your starting gallons for this price.</small>
@@ -18,13 +19,21 @@
             <small class="error">Please enter your price for this range.</small>
         </div>
         <div class="large-3 columns text-center">
-            <a href="#">Additional Fees</a> (@Model[i].Fees.Count())
-        </div>
+            @{ var modalId = string.Format("feeModal{0}", i); }
+            <a href="#" class="feesLink" data-reveal-id="@modalId">Additional Fee</a>
+            <div id="@modalId" class="reveal-modal" data-reveal aria-labelledby="Additional Fees" aria-hidden="true" role="dialog">
+                @Html.EditorFor(m => m[i].Fees, "Fees", new { OilDeliveryPriceLevelID = Model[i].ID })
+            </div>
+         </div>
+
         <div class="large-3 columns">
             @if (Model[i] != Model.First())
             {
                 <button class="delete-price">Delete</button>
             }
         </div>
+        <script type="text/javascript">
+           
+        </script>
     </div>   
 }

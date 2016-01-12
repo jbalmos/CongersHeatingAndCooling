@@ -424,6 +424,7 @@
     <Content Include="Views\OilDelivery\_PricingPanel.cshtml" />
     <Content Include="Views\Manage\Pricing.cshtml" />
     <Content Include="Views\Manage\EditorTemplates\PriceLevel.cshtml" />
+    <Content Include="Views\Manage\EditorTemplates\Fees.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Images\Icons\" />

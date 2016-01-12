@@ -7,7 +7,7 @@ namespace CHC.Entities.Services.OilDelivery
     {
         public PriceLevel()
         {
-            this.Fees = new HashSet<PriceLevelFee>();
+            this.Fees = new List<PriceLevelFee>();
         }
 
         public int ID { get; set; }
@@ -16,7 +16,7 @@ namespace CHC.Entities.Services.OilDelivery
         public int GallonRangeEnd { get; set; }
         public decimal PricePerGallon { get; set; }
         public virtual PricingTier PricingTier { get; set; }
-        public virtual ICollection<PriceLevelFee> Fees { get; set; }
+        public virtual IList<PriceLevelFee> Fees { get; set; }
     }
 
     public static class PriceLevelExtensions

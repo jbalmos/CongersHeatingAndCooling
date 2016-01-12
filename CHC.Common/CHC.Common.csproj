@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ChcDbContext.cs" />
     <Compile Include="DefaultDbContextFactory.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="IDbContextFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AbstractDbRepository.cs" />
@@ -68,12 +69,14 @@
     <Compile Include="Repositories\Customers\DefaultCustomerRepository.cs" />
     <Compile Include="Repositories\Customers\DefaultFillPipeLocationRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultDeliveryRequestRepository.cs" />
+    <Compile Include="Repositories\OilDelivery\DefaultPriceLevelRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultPricingTierRepository.cs" />
     <Compile Include="Repositories\Customers\ICustomerRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultServiceAreaRepository.cs" />
     <Compile Include="Repositories\Customers\IFillPipeLocationRepository.cs" />
     <Compile Include="Repositories\OilDelivery\DefaultServiceAreaTownRepository.cs" />
     <Compile Include="Repositories\OilDelivery\IDeliveryRequestRepository.cs" />
+    <Compile Include="Repositories\OilDelivery\IPriceLevelRepository.cs" />
     <Compile Include="Repositories\OilDelivery\IPricingTierRepository.cs" />
     <Compile Include="Repositories\OilDelivery\IServiceAreaRepository.cs" />
     <Compile Include="Repositories\OilDelivery\IServiceAreaTownRepository.cs" />

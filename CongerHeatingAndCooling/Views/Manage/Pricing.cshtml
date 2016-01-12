@@ -103,7 +103,7 @@
             <div class="row">
                 <div class="large-12 columns text-center">
                     <button id="AddPrice">+ Add Price</button>
-                    <button id="SavePricing">Save</button>
+                    <button type="submit" id="SavePricing">Save</button>
                 </div>
             </div>
             <h3>Below are the active towns in the current delivery area.</h3>
@@ -138,9 +138,23 @@
                 function (index, value) {
                     var input = $(value);
                     var index = parseInt(input.attr("id").match(/\d+/g), 10) + 1;
-                    input.attr('id', input.attr('id').replace(/\d+/g, index));
-                    input.attr('name', input.attr('name').replace(/\d+/g, index));
+                    input.attr('id', input.attr('id').replace(/\d+/, index));
+                    input.attr('name', input.attr('name').replace(/\d+/, index));
                     input.attr('value', '');
+                }
+            );
+            $.each(clone.find('.feesLink'),
+                function (index, value) {
+                    var input = $(value);
+                    var index = parseInt(input.attr("data-reveal-id").match(/\d+/g), 10) + 1;
+                    input.attr('data-reveal-id', input.attr('data-reveal-id').replace(/\d+/g, index));
+                }
+            );
+            $.each(clone.find('.reveal-modal'),
+                function (index, value) {
+                    var input = $(value);
+                    var index = parseInt(input.attr("id").match(/\d+/g), 10) + 1;
+                    input.attr('id', input.attr('id').replace(/\d+/g, index));
                 }
             );
             var deleteButton = clone.find('button');
@@ -150,6 +164,7 @@
                 return false;
             });
             clone.insertAfter(row);
+            $(document).foundation('reveal', 'reflow');
             return false;
         });
         $('#SavePricing').on('click', function () {
@@ -158,6 +173,9 @@
             event.preventDefault();
             var row = $(this).closest('.price').remove();
             return false;
+        });
+        $(document).foundation('reveal', 'open', {
+            root_element: 'form'
         });
     });
 </script>
