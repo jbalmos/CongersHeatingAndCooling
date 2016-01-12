@@ -42,7 +42,7 @@ namespace CongerHeatingAndCooling.Controllers
 				Session["Account"] = account;
 				return RedirectToAction("Pricing");
 			}
-			return View("Pricing", model);
+			return View("Pricing");
 		}
 
 		public ActionResult Logout()
