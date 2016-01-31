@@ -8,24 +8,29 @@ using CHC.Entities.Customers;
 using CHC.Entities.Services.OilDelivery;
 using CHC.Common.Repositories.Customers;
 using CHC.Common.Repositories.OilDelivery;
-
+using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace CongerHeatingAndCooling.Controllers
 {
 	public class ManageController : Controller
 	{
+		public const int DefaultPricingTierID = 1;
 		readonly IServiceAreaTownRepository serviceAreaTownRepo;
+		readonly IServiceAreaRepository serviceAreaRepo;
 		readonly IPricingTierRepository pricingTierRepo;
 		readonly IAccountRepository accountRepo;
 
 		public ManageController(IServiceAreaTownRepository serviceAreaTownRepo,
-			 IPricingTierRepository pricingTierRepo,
-			 IAccountRepository accountRepo )
+			IServiceAreaRepository serviceAreaRepo,
+			IPricingTierRepository pricingTierRepo,
+			IAccountRepository accountRepo)
 		{
 			this.serviceAreaTownRepo = serviceAreaTownRepo;
+			this.serviceAreaRepo = serviceAreaRepo;
 			this.pricingTierRepo = pricingTierRepo;
 			this.accountRepo = accountRepo;
-      }
+		}
 
 		[HttpPost]
 		public ActionResult Login(LoginModel model)
@@ -36,7 +41,8 @@ namespace CongerHeatingAndCooling.Controllers
 			{
 				Session["IsLoggedIn"] = null;
 				Session["Account"] = null;
-			} else
+			}
+			else
 			{
 				Session["IsLoggedIn"] = "True";
 				Session["Account"] = account;
@@ -63,7 +69,7 @@ namespace CongerHeatingAndCooling.Controllers
 		public ActionResult Pricing(PricingTierModel model)
 		{
 			var pricingTier = pricingTierRepo.Query().Where(s => s.ID == 1).First();
-			
+
 			model.PriceLevels.ToList().ForEach(l =>
 			{
 				l.Fees.RemoveAll<PriceLevelFee>(f => String.IsNullOrWhiteSpace(f.Description) || f.Fee == 0);
@@ -82,30 +88,31 @@ namespace CongerHeatingAndCooling.Controllers
 
 			Mapper.Map(model.PricingTier, pricingTier);
 			model.PriceLevels.Each(l =>
-		   {
-			  PriceLevel level = pricingTier.PriceLevels.Where(pl => pl.ID == l.ID).FirstOrDefault();
-			  if (level != null)
-			  {
-				  Mapper.Map(l, level);
-				  level.Fees.Each(f =>
-				  {
-					   PriceLevelFee fee = l.Fees.Where(pf => pf.ID == f.ID).FirstOrDefault();
-					   if (fee != null)
-					   {
-					  	 Mapper.Map(fee, f);
-					   }
-				   });
-			  }
-			  else
-			  {
-				  pricingTier.PriceLevels.Add(l);
-			  }
-		   });
+			{
+				PriceLevel level = pricingTier.PriceLevels.Where(pl => pl.ID == l.ID).FirstOrDefault();
+				if (level != null)
+				{
+					Mapper.Map(l, level);
+					level.Fees.Each(f =>
+					{
+						PriceLevelFee fee = l.Fees.Where(pf => pf.ID == f.ID).FirstOrDefault();
+						if (fee != null)
+						{
+							Mapper.Map(fee, f);
+						}
+					});
+				}
+				else
+				{
+					pricingTier.PriceLevels.Add(l);
+				}
+			});
 
 			pricingTierRepo.Update(pricingTier);
 			model.ServiceAreas = pricingTier.ServiceAreas.ToList();
 			var deletedPrices = pricingTier.PriceLevels.Where(l => !model.PriceLevels.Any(p => p.ID == l.ID)).ToList();
-			deletedPrices.Each(p => {
+			deletedPrices.Each(p =>
+			{
 				pricingTierRepo.DeletePriceLevel(p);
 			});
 
@@ -122,6 +129,35 @@ namespace CongerHeatingAndCooling.Controllers
 				PriceLevels = pricingTier.PriceLevels.ToList()
 			};
 			return View(model);
+		}
+
+		public ActionResult ServiceArea()
+		{
+			var serviceArea = serviceAreaTownRepo.Query().Include(a => a.ServiceAreas).Select(
+				t => new TownModel
+				{
+					Name = t.Name,
+					Active = t.ServiceAreas.Count() > 0
+				}).Distinct().ToList();
+
+			return View(serviceArea);
+		}
+
+		[HttpPost]
+		public ActionResult ServiceArea(List<TownModel> towns)
+		{
+			var selectedTownNames = towns.Where(t => t.Active).Select(t => t.Name);
+			var serviceAreaTowns = serviceAreaTownRepo.Query().Where(t => selectedTownNames.Contains(t.Name)).ToList().Select
+				(s => new ServiceArea
+				{
+					OilDeliveryPricingTierID = DefaultPricingTierID,
+					Zip = s.Zip
+				});
+
+			serviceAreaRepo.Clear(DefaultPricingTierID);
+			serviceAreaRepo.BatchAdd(serviceAreaTowns);
+
+			return View(towns);
 		}
 	}
 }

@@ -40,7 +40,7 @@
                 <h2>Proudly Serving the Following Communities</h2>
                 <div class="flow">
                     <ul>            
-                        @foreach( string town in Model.ServiceAreas) {
+                        @foreach( string town in Model.ServiceAreas.Distinct() ) {
                             <li>@town</li>
                         }
                     </ul>

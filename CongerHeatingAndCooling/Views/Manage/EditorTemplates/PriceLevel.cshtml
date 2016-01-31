@@ -15,7 +15,7 @@
             <small class="error">Please enter your maximum gallons for this price.</small>
         </div>
         <div class="large-2 columns">
-            @Html.TextBoxFor( m => Model[i].PricePerGallon, new { @required = ""} )
+            @Html.TextBoxFor( m => Model[i].PricePerGallon, new { @required = "", @class= "ppg"} )
             <small class="error">Please enter your price for this range.</small>
         </div>
         <div class="large-3 columns text-center">

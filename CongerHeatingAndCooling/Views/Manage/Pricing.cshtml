@@ -70,13 +70,13 @@ else
                                 Old Password:
                             </div>
                             <div class="large-3 columns field-label">
-                                <input type="text" id="oldPassword" name="oldPassword" />
+                                <input type="password" id="oldPassword" name="oldPassword" />
                             </div>
                             <div class="large-3 columns field-label">
                                 New password:
                             </div>
                             <div class="large-3 columns field-label">
-                                <input type="text" id="newPassword" name="newPassword" />
+                                <input type="password" id="newPassword" name="newPassword" />
                             </div>}
                         </div>
                         <div class="row">
@@ -122,46 +122,47 @@ else
                     %
                 </div>
             </div>
-                    <div class="row">
-                        <div class="large-2 columns field-label">
-                            Starting Gallons
-                        </div>
-                        <div class="large-2 columns field-label">
-                            Ending Gallons
-                        </div>
-                        <div class="large-2 columns field-label">
-                            Price
-                        </div>
-                        <div class="large-6 columns field-label">
-                        </div>
-                    </div>
-                    @Html.EditorFor(m => m.PriceLevels, "PriceLevel")
-                    <div class="row">
-                        <div class="large-12 columns text-center">
-                            <button id="AddPrice">+ Add Price</button>
-                            <button type="submit" id="SavePricing">Save</button>
-                        </div>
-                    </div>
-                    <h1>Delivery Zone</h1>
-                    <h3>Below are the active towns in the current delivery area.</h3>
-
-                    <div class="flow">
-                        <ul>
-                            @foreach (string townName in Model.ServiceAreas.ToList().Select(t => t.Town.Name).Distinct())
-                            {
-                            <li>@townName</li>}
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <div class="large-12 columns text-center">
-                            <button id="AddTown">+ Add Town</button>
-                            <button id="Remove Town">- Remove Town</button>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="large-2 columns field-label">
+                    Starting Gallons
+                </div>
+                <div class="large-2 columns field-label">
+                    Ending Gallons
+                </div>
+                <div class="large-2 columns field-label">
+                    Price
+                </div>
+                <div class="large-6 columns field-label">
+                </div>
+            </div>
+            @Html.EditorFor(m => m.PriceLevels, "PriceLevel")
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <a class="button" href="#" id="AdjustPrices" data-reveal-id="globalPriceAdjuster">Adjust All</a>
+                    <button id="AddPrice">+ Add Price</button>
+                    <button type="submit" id="SavePricing">Save</button>
+                </div>
+            </div>
+            <h1>Delivery Zone</h1>
+            <h3>Below are the active towns in the current delivery area.</h3>
+            <div class="flow">
+                <ul>
+                    @foreach (string townName in Model.ServiceAreas.ToList().Select(t => t.Town.Name).Distinct())
+                    {
+                    <li>@townName</li>}
+                </ul>
+            </div>
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <a class="button" href="@Url.Action("ServiceArea", "Manage")">Edit</a>
+                </div>
+            </div>
+            @Html.Partial("_GlobalPriceAdjuster")
 }
         </div>
     </div>
 </div>
+
 }
 @section scripts {
     <script type="text/javascript">
@@ -232,6 +233,36 @@ else
             $('.fee .button').on('click', function () {
                 $(this).closest('.reveal-modal').foundation('reveal', 'close');
             });
+            $('#globalPriceAdjuster a.button').on('click', function () {
+                $(this).closest('.reveal-modal').foundation('reveal', 'close');
+            });
+            $('#calculatePrices').on('click', function (event) {
+                event.preventDefault();
+                var increment = $(this).closest('.panel').find('#priceIncrement').val();
+                var minPrice = $(this).closest('.panel').find('#minimumPrice').val();
+                var prices = $('.ppg').toArray();
+                var price = Number(minPrice) * 1000;
+                var step = Number(increment) * 1000
+                var ctrlVals = new Array();
+                $.each(prices, function( index, ctrl ) {
+                    ctrlVals.push({ ctrl: $(ctrl), price: Number($(ctrl).val()) * 1000 })
+                });
+                ctrlVals.sort(
+                    function(a, b)
+                    {
+                        if (a.price == b.price) { return 0; }
+                        if (a.price > b.price) { return 1; } else { return -1; }
+                    });
+
+                for(var i = 0; i < ctrlVals.length; i++) {
+                    var ctrl = $(ctrlVals[i].ctrl);
+                    ctrl.val( (price / 1000).toFixed(3) );
+                    price = (price + step);
+                }
+                $(this).closest('.reveal-modal').foundation('reveal', 'close');
+                return false;
+            });
+
             $('.delete-price').on('click', function (event) {
                 event.preventDefault();
                 var row = $(this).closest('.price').remove();
