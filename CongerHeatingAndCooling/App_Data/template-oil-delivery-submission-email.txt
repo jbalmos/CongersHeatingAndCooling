@@ -1,18 +1,104 @@
-﻿Customer: 
-	{FirstName} {LastName}
-	{Mobile}
-	{Email}
-
-Delivery Address:
-	{Address1}
-	{Address2}
-	{City}, {State} {Zip}
-	{Phone}
-
-Order Details:
-	Estimated Gallons:	{EstimatedGallons}
-	Fill Pipe Location:	{FillerPipeLocation}
-	Burner Priming:		{RequiresBurnerPriming}
-	Tank Size:			{TankSize}
-	Tank Level:			{TankLevel}
-	Quoted PPG:			{QuotedPricePerGallon}
+﻿<html>
+<head>
+</head>
+<body style="font-family: Helvetica Neue,Segoe UI,Helvetica,Arial,Lucida Grande,sans-serif;">
+    <table>
+        <tr>
+            <td>
+                <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling" />
+            </td>
+            <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
+                <b>978.870.4945</b>
+                <p>
+                    10 Lakeshore Drive<br />
+                    Leominster, MA 01453
+                </p>
+            </td>
+            <td valign="bottom">
+                <img src="http://www.congersheatingandcooling.com/Content/Images/accepted-cards-small.png" alt="We accept most major credit cards." />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <h1>Request for Oil Delivery</h1>
+    <table>
+        <tr>
+            <td valign="top">
+                <h2>Customer</h2>
+                <table>
+                    <tr>
+                        <td><b>Name:</b></td>
+                        <td>{FirstName} {LastName}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Mobile:</b></td>
+                        <td>{Mobile}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Email:</b></td>
+                        <td>{Email}</td>
+                    </tr>
+                    <tr>
+                        <td><b>US Military:</b></td>
+                        <td>{IsUSMilitaryCustomer}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Senior Citizen:</b></td>
+                        <td>{IsSeniorCitizen}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Fuel Assitance:</b></td>
+                        <td>{IsFuelAssistanceCustomer}</td>
+                    </tr>
+                </table>
+            </td>
+            <td valign="top">
+                <h2>Delivery Information</h2>
+                <table>
+                    <tr>
+                        <td><b>Address:</b></td>
+                        <td>
+                            {Address1}<br />{Address2}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{City}, {State} {Zip}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Phone:</b></td>
+                        <td>{Phone}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Fill Pipe Location:</b></td>
+                        <td>{FillerPipeLocation}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <h2>Estimate Information:</h2>
+    <table>
+        <tr>
+            <td><b>Burner Priming:</b></td>
+            <td>{RequiresBurnerPriming}</td>
+        </tr>
+        <tr>
+            <td><b>Tank Size:</b></td>
+            <td>{TankSize}</td>
+        </tr>
+        <tr>
+            <td><b>Tank Level:</b></td>
+            <td>{TankLevel}</td>
+        </tr>
+        <tr>
+            <td><b>Estimated Gallons:</b></td>
+            <td>{EstimatedGallons}</td>
+        </tr>
+        <tr>
+            <td><b>Price/Gallon:</b></td>
+            <td><h3 style="color:blue;">${QuotedPricePerGallon}</h3></td>
+        </tr>
+    </table>
+</body>
+</html>				

@@ -6,13 +6,13 @@
     <div class="large-12 columns">
         <div class="panel transparent">
             <div class="row">
-                <div class="large-8 columns">
+                <div class="large-7 columns">
                     <h1><span class="black">Welcome to Conger's</span><br /> <span class="orange">Heating</span> <span class="black">&amp;</span> <span class="blue">Cooling</span></h1>
                     <h2>Whether looking to repair, replace, or install, we do it all!</h2>
                 </div>
-                <div class="large-4 columns">
+                <div class="large-5 columns">
                     <ul class="bolded">
-                        <li>10 Lakeshore Drive, Leominster, MA</li>
+                        <li>10 Lakeshore Drive, Leominster, MA 01453</li>
                         <li><span class="blue">978.</span><span class="orange">870</span><span class="blue">.4945</span></li>
                         <li>Free Estimates</li>
                         <li>Open from 8 a.m. - 4 p.m.</li>
@@ -28,11 +28,29 @@
                         company you can trust for your home climate needs. Please also review our additional services we provide from our
                         <a href="~/Company/Services">services directory</a>.
                     </p>
-                    <h4>Like us on Facebook!</h4>
-                    <div class="fb-like" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                 </div>
                 <div class="large-7 columns">
                     <img src="~/Content/Images/oil-hvac-trucks.jpg" alt="Conger's Heating &amp; Cooling 978-870-4945" border="0" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-8 columns">
+                    <div class="panel radius">
+                        <div class="row">
+                            <div class="large-2 columns">
+                                <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">
+                                    <img src="~/Content/Images/Logos/NEFWC.png" alt="NEFWC Fuel Assistance Program" border="0" />
+                                    </a>
+                            </div>
+                            <div class="large-10 columns">
+                                <p class="small">We are participating member of the <b class="blue">NEFWC Fuel Assistance Program.</b> <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">Sign up today!</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="large-4 columns">
+                    <h4>Like us on Facebook!</h4>
+                    <div class="fb-like" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                 </div>
             </div>
             <br />
@@ -41,10 +59,11 @@
                 <div class="flow">
                     <ul>            
                         @foreach( string town in Model.ServiceAreas.Distinct() ) {
-                            <li>@town</li>
+                            <li><b class="blue small">@town</b></li>
                         }
                     </ul>
                 </div>
+                <br/>
                 <p>Don't see your town listed in our service area? Give us a call at <b>978.870.4945</b> or <a href="~/Support/ContactUs">contact us</a> 
                 and we will be more than happy to assist you and add your town to our growing list!</p>
             </div>

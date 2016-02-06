@@ -155,7 +155,6 @@
             }
         },
         _formatHtmlFractionalPrice: function( pricePerGallon ) {
-            debugger;
             var priceLeft = pricePerGallon.substring(0, (pricePerGallon.indexOf(".") + 3));
             var priceRight = pricePerGallon.length > 4 ? pricePerGallon.substring((pricePerGallon.indexOf(".") + 3), (pricePerGallon.length )) : "0";
 

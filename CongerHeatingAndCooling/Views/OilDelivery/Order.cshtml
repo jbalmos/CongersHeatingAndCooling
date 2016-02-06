@@ -122,13 +122,74 @@
                         <div class="large-5 columns">
                         </div>
                     </div>
-                    <br />
-                    <div class="row">
-                        <div class="large-12 columns text-center">
-                            <button type="submit" title="Place Order" id="SubmitOrder">Place Order</button>
+                    </div>
+                    <div class="panel radius">
+                        <h2 class="blue">Do You Qualify for Special Pricing Programs</h2>
+                        <br />
+                        <div class="row">
+                            <div class="large-4 columns text-right field-label">
+                                <span>Senior Citizen:</span>
+                            </div>
+                            <div class="large-8 columns">
+                                <div class="switch">
+                                    <input type="checkbox" id="IsSeniorCitizen" name="IsSeniorCitizen" />
+                                    <label for="IsSeniorCitizen">
+                                        <span class="switch-on">Yes</span>
+                                        <span class="switch-off">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-4 columns text-right field-label">
+                                <span>US Military:</span>
+                            </div>
+                            <div class="large-8 columns">
+                                <div class="switch">
+                                    <input type="checkbox" id="IsUSMilitaryCustomer" name="IsUSMilitaryCustomer" />
+                                    <label for="IsUSMilitaryCustomer">
+                                        <span class="switch-on">Yes</span>
+                                        <span class="switch-off">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns text-center">
+                                <small>
+                                    All discount programs are subject to verification. Please call us for more details about our programs. We will confirm
+                                    your pricing at time of delivery.
+                                </small>
+                            </div>
+                        </div>
+                        <br />
+                        <h2 class="blue">Or Have Special Needs</h2>
+                        <br />
+                        <div class="row">
+                            <div class="large-4 columns text-right field-label">
+                                <span>NEFWC Fuel Assistance:</span>
+                            </div>
+                            <div class="large-1 columns">
+                                <div class="switch">
+                                    <input type="checkbox" id="IsFuelAssistanceCustomer" name="IsFuelAssistanceCustomer" />
+                                    <label for="IsFuelAssistanceCustomer">
+                                        <span class="switch-on">Yes</span>
+                                        <span class="switch-off">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="large-7 columns">
+                                <i><small>Please call us to finalize your account setup with NEFWC.</small></i>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="large-12 columns text-center">
+                                <button type="submit" title="Place Order" id="SubmitOrder">Place Order</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+
                 @Html.Partial("_Footer")
             </div>
         </div>
@@ -218,6 +279,9 @@
                 State: $('#State').val(),
                 Zip: $('#Zip').val(),
                 Phone: $('#Phone').val(),
+                IsSeniorCitizen: $('#IsSeniorCitizen').is(':checked'),
+                IsUSMilitaryCustomer: $('#IsUSMilitaryCustomer').is(':checked'),
+                IsFuelAssistanceCustomer: $('#IsFuelAssistanceCustomer').is(':checked'),
                 FillerPipeLocation: $('#FillerPipeLocations option:selected').text(),
                 TankSize: priceEstimator.getTankSize(),
                 TankLevel: priceEstimator.getTankLevel(),
