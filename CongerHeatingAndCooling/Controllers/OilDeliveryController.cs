@@ -105,7 +105,6 @@ namespace CongerHeatingAndCooling.Controllers
 
 
 			var customerAddress = customer.Addresses.First();
-
 			DeliveryRequest request = new DeliveryRequest
 			{
 				CustomerAddress = customerAddress,
@@ -141,7 +140,7 @@ namespace CongerHeatingAndCooling.Controllers
 				}
 			}
 
-			SendRequestNotification(model);
+			SendRequestNotification(model, pricingTier);
 
 			if (deliveryRequestRepo.Add(request))
 			{
@@ -151,9 +150,10 @@ namespace CongerHeatingAndCooling.Controllers
 			return Json(new { Success = false });
 		}
 
-		private void SendRequestNotification(OrderFormModel model)
+		private void SendRequestNotification(OrderFormModel model, PricingTier pricingTier)
 		{
 			var emailTemplate = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-oil-delivery-submission-email.txt");
+			var customerTemplate = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-oil-delivery-submission-customer-email.txt");
 			var smsTemplate = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-oil-delivery-submission-sms.txt");
 
 			using (StreamReader streamReader = new StreamReader(emailTemplate, Encoding.ASCII))
@@ -166,6 +166,11 @@ namespace CongerHeatingAndCooling.Controllers
 				smsTemplate = streamReader.ReadToEnd();
 			}
 
+			using (StreamReader streamReader = new StreamReader(customerTemplate, Encoding.ASCII))
+			{
+				customerTemplate = streamReader.ReadToEnd();
+			}
+
 			var formCollection = Request.Form;
 
 			foreach (PropertyInfo prop in model.GetType().GetProperties())
@@ -174,14 +179,49 @@ namespace CongerHeatingAndCooling.Controllers
 				{
 					var value = prop.GetValue(model, null) ?? string.Empty;
 					emailTemplate = emailTemplate.Replace(string.Format(@"{{{0}}}", prop.Name), value.ToString());
+					customerTemplate = customerTemplate.Replace(string.Format(@"{{{0}}}", prop.Name), value.ToString());
 					smsTemplate = smsTemplate.Replace(string.Format(@"{{{0}}}", prop.Name), value.ToString());
 				}
 			}
+
+			customerTemplate = customerTemplate.Replace(@"{BurnerPrimingFee}", GetBurnerPrimingFee( model, pricingTier ));
+			customerTemplate = customerTemplate.Replace("{EstimatedPrice}", GetEstimateTotal(model, pricingTier));
+			customerTemplate = GetDiclaimers(customerTemplate, model);
 
 			string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
 
 			UtilitySmtp.SendSmsMessage("Oil Delivery Request", smsTemplate, true);
 			UtilitySmtp.SendSmtpMessage(recipients, "Oil Delivery Request", emailTemplate, true, true);
+			UtilitySmtp.SendSmtpMessage(new[] { model.Email }, "Conger's Heating & Cooling: Your Oil Delivery Estimate Confirmation", customerTemplate, true, false);
+		}
+
+		private string GetDiclaimers(string customerTemplate, OrderFormModel model)
+		{
+			customerTemplate = customerTemplate.Replace("{Disclaimer}", (model.IsUSMilitaryCustomer || model.IsSeniorCitizen ? "*" : string.Empty));
+			customerTemplate = customerTemplate.Replace("{DisclaimerText}", (model.IsUSMilitaryCustomer || model.IsSeniorCitizen ? @"<p>* Additional discounts have been indicated but not applied to this estimate. These discounts are subject to verification to qualify and will be applied to the final bill at time of delivery.</p>" : string.Empty));
+
+			return customerTemplate;
+      }
+
+		private string GetBurnerPrimingFee(OrderFormModel model, PricingTier pricingTier)
+		{
+			return model.RequiresBurnerPriming && pricingTier != null ?
+				string.Format(@"
+				<tr>
+					<td><b>Burner Priming Fee:</b></td>
+					<td>{0:C}</td>
+				</tr>", pricingTier.BurnerPrimingFee)
+				: "";
+      }
+
+		private string GetEstimateTotal(OrderFormModel model, PricingTier pricingTier )
+		{
+			decimal price = model.EstimatedGallons * model.QuotedPricePerGallon;
+			if (model.RequiresBurnerPriming && pricingTier != null)
+			{
+				price += pricingTier.BurnerPrimingFee;
+         }
+			return string.Format("{0:C}", price);
 		}
 
 		public ActionResult GetPricing(string zipCode)

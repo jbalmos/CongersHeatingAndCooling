@@ -167,6 +167,7 @@
     <Content Include="App_Data\template-contact-us-email.txt" />
     <Content Include="App_Data\template-contact-us-emergency-sms.txt" />
     <Content Include="App_Data\template-contact-us-sms.txt" />
+    <Content Include="App_Data\template-oil-delivery-submission-customer-email.txt" />
     <Content Include="App_Data\template-oil-delivery-submission-sms.txt" />
     <Content Include="App_Data\template-service-request-submission-email.txt" />
     <Content Include="App_Data\template-emergency-service-request-submission-sms.txt" />

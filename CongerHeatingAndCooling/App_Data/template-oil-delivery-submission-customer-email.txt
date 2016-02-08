@@ -1,0 +1,67 @@
+﻿<html>
+<head>
+</head>
+<body style="font-family: Helvetica Neue,Segoe UI,Helvetica,Arial,Lucida Grande,sans-serif;">
+    <table>
+        <tr>
+            <td>
+                <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling" />
+            </td>
+            <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
+                <b>978.870.4945</b>
+                <p>
+                    10 Lakeshore Drive<br />
+                    Leominster, MA 01453
+                </p>
+            </td>
+            <td valign="bottom">
+                <img src="http://www.congersheatingandcooling.com/Content/Images/accepted-cards-small.png" alt="We accept most major credit cards." />
+            </td>
+        </tr>
+    </table>
+    <p>
+		<b>Thank you for your order!</b> We are currently processing it and will contact you shortly to confirm the appointment delivery time and location.
+      Prices are estimates only and subject to vary based on payment method, discount program qualification, and final total volume of oil delivered. 
+		A final bill will be calculated based on these factors and presented upon completion of delivery. Any questions or concerns please call us at
+		978.870.4945.
+	 </p>
+	 <p>Sincerely,</p>
+	 <p>
+	   Shawn Conger<br />
+		Conger's Heating &amp; Cooling
+	 </p>
+    <h1>Your Delivery Estimate</h1>
+    <table>
+		  <tr>
+            <td><b>US Military:</b></td>
+            <td>{IsUSMilitaryCustomer}</td>
+        </tr>
+        <tr>
+            <td><b>Senior Citizen:</b></td>
+            <td>{IsSeniorCitizen}</td>
+        </tr>
+        {BurnerPrimingFee}
+        <tr>
+            <td><b>Tank Size:</b></td>
+            <td>{TankSize}</td>
+        </tr>
+        <tr>
+            <td><b>Tank Level:</b></td>
+            <td>{TankLevel}</td>
+        </tr>
+        <tr>
+            <td><b>Estimated Gallons:</b></td>
+            <td>{EstimatedGallons}</td>
+        </tr>
+        <tr>
+            <td><b>Price/Gallon:</b></td>
+            <td>${QuotedPricePerGallon}</td>
+        </tr>
+		  <tr>
+            <td><b>Estimated Total{Disclaimer}:</b></td>
+            <td><h3 style="color:blue;">{EstimatedPrice}</h3></td>
+        </tr>
+    </table>
+	 {DisclaimerText}
+</body>
+</html>				
