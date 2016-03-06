@@ -182,6 +182,7 @@
     <Content Include="Content\Images\accepted-cards.png" />
     <Content Include="Content\Images\Backgrounds\Background.jpg" />
     <Content Include="Content\Images\Backgrounds\background2-blur.jpg" />
+    <Content Include="Content\Images\Backgrounds\flag.jpg" />
     <Content Include="Content\Images\Backgrounds\oil-service-trucks.jpg" />
     <Content Include="Content\Images\Backgrounds\white.png" />
     <Content Include="Content\Images\CongersTruck.jpg" />
@@ -191,6 +192,7 @@
     <Content Include="Content\Images\Logos\camp-out-cancer.png" />
     <Content Include="Content\Images\Logos\chclogo-small.png" />
     <Content Include="Content\Images\Logos\chclogo.png" />
+    <Content Include="Content\Images\Logos\mass-save.jpg" />
     <Content Include="Content\Images\Logos\NEFWC.png" />
     <Content Include="Content\Images\Logos\partners.gif" />
     <Content Include="Content\Images\oil-hvac-trucks.jpg" />

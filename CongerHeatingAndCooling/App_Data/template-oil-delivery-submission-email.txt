@@ -8,7 +8,7 @@
                 <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling" />
             </td>
             <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
-                <b>978.870.4945</b>
+                <b>978.728.4757</b>
                 <p>
                     10 Lakeshore Drive<br />
                     Leominster, MA 01453
@@ -37,6 +37,10 @@
                     <tr>
                         <td><b>Email:</b></td>
                         <td>{Email}</td>
+                    </tr>
+						  <tr>
+                        <td><b>Emergency Responder:</b></td>
+                        <td>{IsEmergencyPersonnel}</td>
                     </tr>
                     <tr>
                         <td><b>US Military:</b></td>

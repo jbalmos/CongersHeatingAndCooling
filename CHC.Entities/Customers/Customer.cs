@@ -17,6 +17,7 @@ namespace CHC.Entities.Customers
 		public bool IsUSMilitaryCustomer { get; set; }
 		public bool IsSeniorCitizen { get; set; }
 		public bool IsFuelAssistanceCustomer { get; set; }
+		public bool IsEmergencyPersonnel { get; set; }
 
 		public virtual Account Account { get; set; }
 		public virtual ICollection<Address> Addresses { get; set; }

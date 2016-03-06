@@ -6986,7 +6986,7 @@ meta.foundation-mq-topbar {
 /* line 118, ../sass/foundation/components/_top-bar.scss */
 .contain-to-grid {
   width: 100%;
-  background: #EF4521;
+  background: #9B211E;
 }
 /* line 122, ../sass/foundation/components/_top-bar.scss */
 .contain-to-grid .top-bar {
@@ -7026,7 +7026,7 @@ meta.foundation-mq-topbar {
   height: 1.5625rem;
   line-height: 1.5625rem;
   position: relative;
-  background: #EF4521;
+  background: #9B211E;
   margin-bottom: 0;
 }
 /* line 161, ../sass/foundation/components/_top-bar.scss */
@@ -7143,7 +7143,7 @@ meta.foundation-mq-topbar {
 }
 /* line 274, ../sass/foundation/components/_top-bar.scss */
 .top-bar.expanded .title-area {
-  background: #EF4521;
+  background: #9B211E;
 }
 /* line 277, ../sass/foundation/components/_top-bar.scss */
 .top-bar.expanded .toggle-topbar a {
@@ -7180,7 +7180,7 @@ meta.foundation-mq-topbar {
 }
 /* line 314, ../sass/foundation/components/_top-bar.scss */
 .top-bar-section ul li {
-  background: #EF4521;
+  background: #9B211E;
 }
 /* line 316, ../sass/foundation/components/_top-bar.scss */
 .top-bar-section ul li > a {
@@ -7467,7 +7467,7 @@ meta.foundation-mq-topbar {
 @media only screen and (min-width: 40.063em) {
   /* line 455, ../sass/foundation/components/_top-bar.scss */
   .top-bar {
-    background: #EF4521;
+    background: #9B211E;
     overflow: visible;
   }
   /* line 173, ../sass/foundation/components/_global.scss */
@@ -7502,7 +7502,7 @@ meta.foundation-mq-topbar {
   }
   /* line 474, ../sass/foundation/components/_top-bar.scss */
   .top-bar.expanded {
-    background: #EF4521;
+    background: #9B211E;
   }
 
   /* line 477, ../sass/foundation/components/_top-bar.scss */
@@ -7541,7 +7541,7 @@ meta.foundation-mq-topbar {
   .top-bar-section li:not(.has-form) a:not(.button) {
     padding: 0 0.52083rem;
     line-height: 1.5625rem;
-    background: #EF4521;
+    background: #9B211E;
   }
   /* line 513, ../sass/foundation/components/_top-bar.scss */
   .top-bar-section li:not(.has-form) a:not(.button):hover {
@@ -7631,12 +7631,12 @@ meta.foundation-mq-topbar {
     line-height: 1.5625rem;
     white-space: nowrap;
     padding: 12px 0.52083rem;
-    background: #EF4521;
+    background: #9B211E;
   }
   /* line 594, ../sass/foundation/components/_top-bar.scss */
   .top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
     color: #FFFFFF;
-    background: #EF4521;
+    background: #9B211E;
   }
   /* line 599, ../sass/foundation/components/_top-bar.scss */
   .top-bar-section .dropdown li:not(.has-form):not(.active):hover > a:not(.button) {
@@ -7647,7 +7647,7 @@ meta.foundation-mq-topbar {
   /* line 608, ../sass/foundation/components/_top-bar.scss */
   .top-bar-section .dropdown li label {
     white-space: nowrap;
-    background: #EF4521;
+    background: #9B211E;
   }
   /* line 614, ../sass/foundation/components/_top-bar.scss */
   .top-bar-section .dropdown li .dropdown {
@@ -7665,7 +7665,7 @@ meta.foundation-mq-topbar {
   }
   /* line 631, ../sass/foundation/components/_top-bar.scss */
   .top-bar-section .has-form {
-    background: #EF4521;
+    background: #9B211E;
     padding: 0 0.52083rem;
     height: 1.5625rem;
   }
@@ -9523,7 +9523,7 @@ th.hide-for-touch {
 }
 /* line 14, ../sass/chc.scss */
 body {
-  background: url("Images/Backgrounds/background2-blur.jpg") no-repeat fixed top;
+  background: url("Images/Backgrounds/flag.jpg") no-repeat fixed top;
   padding-top: 10px;
   font-size: smallest;
 }
@@ -9544,13 +9544,13 @@ h1 {
 /* line 31, ../sass/chc.scss */
 h2 {
   font-family: source_sans_prosemibold;
-  color: #EF4521 !important;
+  color: #9B211E !important;
   font-size: large;
 }
 
 /* line 37, ../sass/chc.scss */
 h3 {
-  color: #EF4521 !important;
+  color: #9B211E !important;
   font-family: TRHeavy;
   font-size: small;
 }
@@ -9581,7 +9581,7 @@ h6 {
 
 /* line 63, ../sass/chc.scss */
 .orange {
-  color: #EF4521 !important;
+  color: #9B211E !important;
 }
 
 /* line 67, ../sass/chc.scss */
@@ -9606,7 +9606,7 @@ h6 {
 /* line 81, ../sass/chc.scss */
 .field-label {
   padding-top: 10px !important;
-  color: #EF4521 !important;
+  color: #9B211E !important;
   font-family: TRHeavy;
   font-size: small;
 }
@@ -9638,7 +9638,7 @@ h6 {
 
 /* line 20, ../sass/chc_topbar.scss */
 .chc-header div span {
-  color: #EF4521;
+  color: #9B211E;
 }
 
 /* line 24, ../sass/chc_topbar.scss */

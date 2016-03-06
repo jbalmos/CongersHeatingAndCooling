@@ -78,7 +78,8 @@ namespace CongerHeatingAndCooling.Controllers
 				IsFuelAssistanceCustomer = model.IsFuelAssistanceCustomer,
 				IsSeniorCitizen = model.IsSeniorCitizen,
 				IsUSMilitaryCustomer = model.IsUSMilitaryCustomer,
-				Addresses = new List<Address> {
+				IsEmergencyPersonnel = model.IsEmergencyPersonnel,
+            Addresses = new List<Address> {
 						  new Address {
 								Address1 = model.Address1,
 								Address2 = model.Address2,

@@ -8,7 +8,7 @@
                 <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling" />
             </td>
             <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
-                <b>978.870.4945</b>
+                <b>978.728.4757</b>
                 <p>
                     10 Lakeshore Drive<br />
                     Leominster, MA 01453
@@ -23,7 +23,7 @@
 		<b>Thank you for your order!</b> We are currently processing it and will contact you shortly to confirm the appointment delivery time and location.
       Prices are estimates only and subject to vary based on payment method, discount program qualification, and final total volume of oil delivered. 
 		A final bill will be calculated based on these factors and presented upon completion of delivery. Any questions or concerns please call us at
-		978.870.4945.
+		978.728.4757.
 	 </p>
 	 <p>Sincerely,</p>
 	 <p>
@@ -32,6 +32,10 @@
 	 </p>
     <h1>Your Delivery Estimate</h1>
     <table>
+	     <tr>
+            <td><b>Emergency Responder:</b></td>
+            <td>{IsEmergencyPersonnel}</td>
+        </tr>
 		  <tr>
             <td><b>US Military:</b></td>
             <td>{IsUSMilitaryCustomer}</td>

@@ -27,6 +27,7 @@ namespace CongerHeatingAndCooling.Models.OilDelivery
 		public bool IsUSMilitaryCustomer { get; set; }
 		public bool IsSeniorCitizen { get; set; }
 		public bool IsFuelAssistanceCustomer { get; set; }
+		public bool IsEmergencyPersonnel { get; set; }
 
 		public IEnumerable<SelectListItem> FillerPipeLocations { get; set; }
 
