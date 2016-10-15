@@ -96,3 +96,7 @@ h6 {
   font-family: TRHeavy;
   font-size: small;
 }
+
+.estimate span {
+    font-size:small;
+}
