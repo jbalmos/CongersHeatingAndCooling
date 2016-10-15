@@ -9688,3 +9688,15 @@ h6 {
 #PricePerGallon sub {
   font-size: 10px !important;
 }
+
+.estimate ul,li {
+	list-style-type: none;
+	list-style-position:inside;
+	margin:0;
+	padding:0; 
+	font-size:small; 
+}
+
+.estimate span {
+	font-size:small; 
+}
