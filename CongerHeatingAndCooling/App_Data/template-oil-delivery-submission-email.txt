@@ -95,6 +95,7 @@
             <td><b>Tank Level:</b></td>
             <td>{TankLevel}</td>
         </tr>
+		  {DeliveryFillType}
         <tr>
             <td><b>Estimated Gallons:</b></td>
             <td>{EstimatedGallons}</td>

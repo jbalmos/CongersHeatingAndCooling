@@ -8,8 +8,8 @@
     </div>
     <div class="large-2 columns">
         <div class="switch">
-            <input type="checkbox" id="IsFillup" checked name="IsFillup" />
-            <label for="IsFillup">
+            <input type="checkbox" id="isFillUp" checked name="isFillUp" />
+            <label for="isFillUp">
                 <span class="switch-on">Yes</span>
                 <span class="switch-off">No</span>
             </label>
@@ -128,7 +128,7 @@
                 totalEstimate: $('#TotalEstimate'),
                 fees: $('.fees'),
                 feesDiv: $('.additional-fees'),
-                isFillUp: $('#IsFillup')
+                isFillUp: $('#isFillUp')
             };
 
             // allow overriding the default config with runtime values
@@ -238,10 +238,14 @@
             return parseInt(priceEstimator.config.tankSize.attr('data-slider'));
         },
         verifyNoFillup: function() {
-            if(!priceEstimator.config.isFillUp.checked) {
+            if(!priceEstimator.config.isFillUp.is(':checked')) {
                 alert('We will attempt to deliver exact number of gallons requested providing the tank is sufficiently empty. This may not fill your tank completely.')
             }
+        },
+        isFillUp: function() {
+            return priceEstimator.config.isFillUp.is(':checked');
         }
+
     };
 
     $(function () {

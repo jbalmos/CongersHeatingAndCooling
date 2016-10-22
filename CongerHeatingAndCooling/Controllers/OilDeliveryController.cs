@@ -3,7 +3,6 @@ using System.Linq;
 using CHC.Common.Repositories.Customers;
 using CHC.Common.Repositories.OilDelivery;
 using CongerHeatingAndCooling.Extensions;
-using CongerHeatingAndCooling.Models;
 using CongerHeatingAndCooling.Models.OilDelivery;
 using System;
 using CHC.Entities.Services.OilDelivery;
@@ -111,7 +110,8 @@ namespace CongerHeatingAndCooling.Controllers
 				CustomerAddress = customerAddress,
 				DateRequested = DateTime.Now,
 				EstimatedGallons = model.EstimatedGallons,
-				RequiresBurnerPriming = model.RequiresBurnerPriming
+				RequiresBurnerPriming = model.RequiresBurnerPriming,
+				isFillUp = model.isFillUp
 			};
 			if (model.RequiresBurnerPriming)
 			{
@@ -187,7 +187,9 @@ namespace CongerHeatingAndCooling.Controllers
 
 			customerTemplate = customerTemplate.Replace(@"{BurnerPrimingFee}", GetBurnerPrimingFee( model, pricingTier ));
 			customerTemplate = customerTemplate.Replace("{EstimatedPrice}", GetEstimateTotal(model, pricingTier));
-			customerTemplate = GetDiclaimers(customerTemplate, model);
+			customerTemplate = GetDisclaimers(customerTemplate, model);
+
+			emailTemplate = GetDisclaimers( emailTemplate, model );
 
 			string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
 
@@ -196,10 +198,22 @@ namespace CongerHeatingAndCooling.Controllers
 			UtilitySmtp.SendSmtpMessage(new[] { model.Email }, "Conger's Heating & Cooling: Your Oil Delivery Estimate Confirmation", customerTemplate, true, false);
 		}
 
-		private string GetDiclaimers(string customerTemplate, OrderFormModel model)
+		private string GetDisclaimers( string customerTemplate, OrderFormModel model)
 		{
-			customerTemplate = customerTemplate.Replace("{Disclaimer}", (model.IsUSMilitaryCustomer || model.IsSeniorCitizen ? "*" : string.Empty));
-			customerTemplate = customerTemplate.Replace("{DisclaimerText}", (model.IsUSMilitaryCustomer || model.IsSeniorCitizen ? @"<p>* Additional discounts have been indicated but not applied to this estimate. These discounts are subject to verification to qualify and will be applied to the final bill at time of delivery.</p>" : string.Empty));
+			customerTemplate = customerTemplate.Replace("{Disclaimer}", (model.IsUSMilitaryCustomer || model.IsSeniorCitizen || model.IsEmergencyPersonnel ? "**" : string.Empty));
+
+			string disclaimerText = string.Empty;
+
+			if(model.isFillUp ) {
+				customerTemplate = customerTemplate.Replace( "{DeliveryFillType}", @"<tr><td colspan=""2""><h3>Fill Tank To Full*</h3></td></tr>" );
+            disclaimerText = "<p>*You have requested to have your tank filled to full, which means we may deliver more than the estimated amount if the estimate does not reflect the actual ammount remaining in your oil tank.</p>";
+         } else {
+				customerTemplate = customerTemplate.Replace( "{DeliveryFillType}", @"<tr><td colspan=""2""><h3>Deliver Exact Amount From Estimate Below</h3></td></tr>" );
+			}
+
+			disclaimerText = disclaimerText + ( model.IsUSMilitaryCustomer || model.IsSeniorCitizen ? @"<p>** Additional discounts have been indicated but not applied to this estimate. These discounts are subject to verification to qualify and will be applied to the final bill at time of delivery.</p>" : string.Empty);
+
+			customerTemplate = customerTemplate.Replace("{DisclaimerText}", disclaimerText );
 
 			return customerTemplate;
       }

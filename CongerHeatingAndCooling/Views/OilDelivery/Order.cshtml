@@ -306,6 +306,7 @@
                 OilDeliveryPriceLevelID: priceEstimator.getCurrentPriceRange().ID,
                 RequiresBurnerPriming: priceEstimator.getTankLevel() == 0,
                 EstimatedGallons: priceEstimator.getEstimatedGallons(),
+                isFillUp: priceEstimator.isFillUp()
             };
 
             $.ajax({
