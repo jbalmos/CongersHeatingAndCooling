@@ -283,6 +283,7 @@
             window.location.href = '@Url.Action("Home", "Company")';
         });
         $("#orderForm").on('valid', function () {
+            $("button[type='submit']").val("Please Wait...").attr('disabled', 'disabled');
             $('#confirmationModal').foundation('reveal', 'open');
 
             var orderFormModel = { 

@@ -6086,7 +6086,7 @@ ul.pagination li {
 
 /* line 166, ../sass/foundation/components/_reveal.scss */
 .reveal-modal-bg {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -6102,7 +6102,7 @@ ul.pagination li {
 .reveal-modal, dialog {
   visibility: hidden;
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 1005;
   width: 100vw;
   top: 0;
@@ -7022,7 +7022,6 @@ meta.foundation-mq-topbar {
 
 /* line 152, ../sass/foundation/components/_top-bar.scss */
 .top-bar {
-  overflow: hidden;
   height: 1.5625rem;
   line-height: 1.5625rem;
   position: relative;
@@ -7063,6 +7062,13 @@ meta.foundation-mq-topbar {
     position: relative;
     top: -1px;
   }
+}
+@media only screen and (max-width: 40em) {
+	/* line 178, ../sass/foundation/components/_top-bar.scss */
+	.fixed {
+		position: relative;
+		top: -1px;
+	}
 }
 /* line 194, ../sass/foundation/components/_top-bar.scss */
 .top-bar .title-area {

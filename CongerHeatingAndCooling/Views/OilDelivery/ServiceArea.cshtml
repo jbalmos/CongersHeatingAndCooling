@@ -1,28 +1,34 @@
 ﻿@{
-    ViewBag.Title = "Conger's Heating & Cooling | 24 Hour Service | 978.728.4757";
+   ViewBag.Title = "Conger's Heating & Cooling | 24 Hour Service | 978.728.4757";
 }
 <div class="row">
     <div class="large-12 columns">
         <div class="panel transparent">
             <h1>Delivery Area</h1>
             <div class="row">
-                <div class="large-12 columns text-center">
-                    <iframe src="https://www.google.com/maps/d/embed?mid=zCKxpGgVuppA.kjyzCEnxpvu4" width="640" height="480"></iframe>
+                <div class="large-12 medium-12 small-12 columns text-center">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=zCKxpGgVuppA.kjyzCEnxpvu4" width="100%" height="480"></iframe>
                     <h6>* The map above is approximate.</h6s>
                 </div>
             </div>
             <div class="panel radius">
-                <div class="flow">
-                    <ul>            
-                        @foreach( string town in Model.ServiceAreas) {
-                            <li>@town</li>
-                        }
-                    </ul>
+                <div class="row">
+                    <div class="large-12 medium-12 small-12 columns text-center">
+                        <div class="flow">
+                            <ul>
+                                @foreach ( string town in Model.ServiceAreas ) {
+                                <li>@town</li>}
+                            </ul>
+                        </div>
+                        <p>
+                            Don't see your town listed in our service area? Give us a call at <b>978.728.4757</b> or <a href="~/Support/ContactUs">contact us</a>
+                            and we will be more than happy to assist you and add your town to our growing list!
+                        </p>
+                    </div>
                 </div>
-                <p>Don't see your town listed in our service area? Give us a call at <b>978.728.4757</b> or <a href="~/Support/ContactUs">contact us</a> 
-                and we will be more than happy to assist you and add your town to our growing list!</p>
             </div>
-            @Html.Partial("_Footer")
+            @Html.Partial( "_Footer" )
         </div>
     </div>
+
 </div>
