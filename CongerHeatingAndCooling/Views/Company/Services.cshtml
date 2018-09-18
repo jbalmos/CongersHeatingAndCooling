@@ -304,35 +304,6 @@
                                 </table>
                             </div>
                         </li>
-                        <li class="accordion-navigation">
-                            <a href="#wells"><h2>Wells</h2></a>
-                            <div id="wells" class="content @(Request.QueryString["service"] == "wells" ? "active" : "")">
-                                <table>
-                                    <tr>
-                                        <th width="34%"></th>
-                                        <th width="22%">Scheduled Maintenance</th>
-                                        <th width="22%">Installation</th>
-                                        <th width="22%">Repair</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Well Pump</td>
-                                        <td />
-                                        <td>
-                                            <div class="switch round large">
-                                              <input type="radio" id="InstallWellPump" name="rblServiceItemWellPump" value="Install Well Pump"/>
-                                              <label for="InstallWellPump"></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="switch round large">
-                                              <input type="radio" id="RepairWellPump" name="rblServiceItemWellPump" value="Repair Well Pump"/>
-                                              <label for="RepairWellPump"></label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </li>
                     </ul>
                     <br /><br />
                     <div class="panel radius">
