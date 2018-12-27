@@ -44,7 +44,7 @@ namespace CongerHeatingAndCooling.Utilities
                 MailAddress to = new MailAddress(recipients[0]);
                 MailMessage message = new MailMessage(from, to);
 
-                for (int i = 1; i < recipients.GetUpperBound(0); i++)
+                for (int i = 1; i <= recipients.GetUpperBound(0); i++)
                 {
                     message.To.Add(new MailAddress(recipients[i]));
                 }
