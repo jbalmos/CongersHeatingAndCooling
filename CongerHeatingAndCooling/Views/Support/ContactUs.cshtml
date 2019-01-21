@@ -1,6 +1,6 @@
 ﻿@model CongerHeatingAndCooling.Models.ContactForm
 @{
-    ViewBag.Title = "Conger's Heating & Cooling | 24 Hour Service | 978.728.4757";
+    ViewBag.Title = "Conger's Heating & Cooling | Oil Delivery & HVAC Installation | 978.728.4757";
 }
 <div class="row">
     <div class="large-12 columns">
@@ -54,8 +54,8 @@
                             <select id="ContactPurpose" name="ContactPurpose">
                                 <option>General Inquiry</option>
                                 <option>Estimates</option>
-                                <option>Service Request</option>
-                                <option>Emergency Service Request</option>
+                                <option>Oil Delivery</option>
+                                <option>Emergency Oil Delivery</option>
                             </select>
                         </div>
                         <div class="large-4 columns">
@@ -83,7 +83,7 @@
                 <div id="emergencyServiceNoteModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     <div class="row">
                         <div class="large-12 columns">
-                            <h4>You have selected Emergency Service Requests as your reason for contacting us. Please enter your telephone number below:</h4>
+                            <h4>You have selected Emergency Oil Delivery as your reason for contacting us. Please enter your telephone number below:</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -123,8 +123,8 @@
     $(document).ready(function () {
 
         $("#SubmitContactUsForm").on('valid', function () {
-            if ($("select[id=ContactPurpose] option:selected").text() == "Emergency Service Request") {
-                if ($("#txtPhoneNumber").val().length == 0) {
+            if ($("select[id=ContactPurpose] option:selected").text() == "Emergency Oil Delivery") {
+                if ($("#Phone").val().length == 0) {
                     $('#emergencyServiceNoteModal').foundation('reveal', 'open');  // show dialog
                     return false;
                 }

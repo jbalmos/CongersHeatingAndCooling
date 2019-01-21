@@ -13,17 +13,23 @@ using System.Text;
 using System.Configuration;
 using CongerHeatingAndCooling.Utilities;
 using System.Reflection;
+using log4net;
+using CHC.Common.Repositories.Office;
+using System.Data.Entity;
 
 namespace CongerHeatingAndCooling.Controllers
 {
 	public class OilDeliveryController : Controller
 	{
+		private static readonly ILog log = LogManager.GetLogger( typeof( OilDeliveryController ) );
+
 		readonly IServiceAreaRepository serviceAreaRepo;
 		readonly IServiceAreaTownRepository townRepo;
 		readonly IPricingTierRepository pricingTierRepo;
 		readonly IFillPipeLocationRepository oilTankLocationRepo;
 		readonly ICustomerRepository customerRepo;
 		readonly IDeliveryRequestRepository deliveryRequestRepo;
+		readonly IOfficeRepository officeRepo;
 
 		public OilDeliveryController(
 			 IServiceAreaRepository serviceAreaRepo,
@@ -31,7 +37,8 @@ namespace CongerHeatingAndCooling.Controllers
 			 IPricingTierRepository pricingTierRepo,
 			 IFillPipeLocationRepository oilTankLocationRepo,
 			 ICustomerRepository customerRepo,
-			 IDeliveryRequestRepository deliveryRequestRepo)
+			 IDeliveryRequestRepository deliveryRequestRepo,
+			 IOfficeRepository officeRepo )
 		{
 			this.serviceAreaRepo = serviceAreaRepo;
 			this.pricingTierRepo = pricingTierRepo;
@@ -39,6 +46,7 @@ namespace CongerHeatingAndCooling.Controllers
 			this.townRepo = townRepo;
 			this.customerRepo = customerRepo;
 			this.deliveryRequestRepo = deliveryRequestRepo;
+			this.officeRepo = officeRepo;
 		}
 
 		public ActionResult ServiceArea()
@@ -53,9 +61,11 @@ namespace CongerHeatingAndCooling.Controllers
 		[HttpGet]
 		public ActionResult Order()
 		{
-			OrderFormModel orderForm = new OrderFormModel
-			{
+			var office = officeRepo.Query().Include( x => x.OfficeHours ).First();
+			OrderFormModel orderForm = new OrderFormModel {
 				State = "MA",
+				Office = office,
+				IsEmergencyRequest = false,
 				FillerPipeLocations = oilTankLocationRepo.Query().ToList().Select(l => new SelectListItem
 				{
 					Value = l.ID.ToString(),
@@ -68,6 +78,10 @@ namespace CongerHeatingAndCooling.Controllers
 		[HttpPost]
 		public ActionResult Order(OrderFormModel model)
 		{
+			var office = officeRepo.Query().Include( x => x.OfficeHours ).First();
+			model.Office = office;
+
+			log.Info( $"Oil Delivery Order: {model.FirstName} { model.LastName}: {model.Mobile}, {model.Email}: {model.EstimatedGallons} gal" );
 			Customer customer = new Customer
 			{
 				FirstName = model.FirstName,
@@ -188,14 +202,27 @@ namespace CongerHeatingAndCooling.Controllers
 			customerTemplate = customerTemplate.Replace(@"{BurnerPrimingFee}", GetBurnerPrimingFee( model, pricingTier ));
 			customerTemplate = customerTemplate.Replace("{EstimatedPrice}", GetEstimateTotal(model, pricingTier));
 			customerTemplate = GetDisclaimers(customerTemplate, model);
-
+			customerTemplate = customerTemplate.Replace( "{EmailBody}", GetEmailBody( model ) );
+			customerTemplate = customerTemplate.Replace( "{EmergencyRequest}",model.IsEmergencyRequest ? "<h2>EMERGENCY REQUEST</h2>" : "" );
 			emailTemplate = GetDisclaimers( emailTemplate, model );
+			emailTemplate = emailTemplate.Replace( "{EmergencyRequest}", model.IsEmergencyRequest ? "<h2>EMERGENCY PRIORITY</h2>" : "" );
 
 			string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
 
 			UtilitySmtp.SendSmsMessage("Oil Delivery Request", smsTemplate, true);
 			UtilitySmtp.SendSmtpMessage(recipients, "Oil Delivery Request", emailTemplate, true, true);
 			UtilitySmtp.SendSmtpMessage(new[] { model.Email }, "Conger's Heating & Cooling: Your Oil Delivery Estimate Confirmation", customerTemplate, true, false);
+		}
+
+		private string GetEmailBody( OrderFormModel model )
+		{
+			if(model.IsOfficeClosed()) {
+				if( model.IsEmergencyRequest) {
+					return "Our office is currently closed. Please contact us via our emergency number 978.870.4945 as soon as possible and leave a voice message if this is an emergency.";
+				}
+				return "Our office is currently closed at this time so your order will be processed on the next business day. If this is an emergency please contact us via our emergency number as soon as possible.";
+			}
+			return "We have received your order and will begin processing it immediately. We will contact you to confirm the appointment delivery time and location.";
 		}
 
 		private string GetDisclaimers( string customerTemplate, OrderFormModel model)

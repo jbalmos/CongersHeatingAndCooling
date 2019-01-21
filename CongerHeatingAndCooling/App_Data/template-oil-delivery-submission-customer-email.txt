@@ -20,8 +20,10 @@
         </tr>
     </table>
     <p>
-		<b>Thank you for your order!</b> We are currently processing it and will contact you shortly to confirm the appointment delivery time and location.
-      Prices are estimates only and subject to vary based on payment method, discount program qualification, and final total volume of oil delivered. 
+		<b>Thank you for your order!</b> 
+    </p>
+	 <p>{EmailBody}</p>
+	 <p>Prices are estimates only and subject to vary based on payment method, discount program qualification, and final total volume of oil delivered. 
 		A final bill will be calculated based on these factors and presented upon completion of delivery. Any questions or concerns please call us at
 		978.728.4757.
 	 </p>
@@ -31,6 +33,7 @@
 		Conger's Heating &amp; Cooling
 	 </p>
     <h1>Your Delivery Estimate</h1>
+	 {EmergencyRequest}
     <table>
 	     <tr>
             <td><b>Emergency Responder:</b></td>

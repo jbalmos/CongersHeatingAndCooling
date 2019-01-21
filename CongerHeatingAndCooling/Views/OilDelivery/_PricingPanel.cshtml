@@ -15,9 +15,21 @@
             </label>
         </div>
     </div>
+    <div class="large-4  medium-4 small-7 columns  field-label">
+        <span>Emergency:</span>
+    </div>
+    <div class="large-8  medium-8 small-5 columns">
+        <div class="switch">
+            <input type="checkbox" id="IsEmergencyRequest" name="IsEmergencyRequest" />
+            <label for="IsEmergencyRequest">
+                <span class="switch-on">Yes</span>
+                <span class="switch-off">No</span>
+            </label>
+        </div>
+    </div>
     <div class="row">
         <div class="large-12 medium-12 small-12 columns">
-            Use the sliders below to estimate the amount of oil you need. A standard oil tank is 275 gallons.
+            Use the slider below to estimate the amount of oil you need. Volume estimates are based on standard 275 gallon oil tank.
         </div>
     </div>
     <br />
@@ -44,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="large-3 medium-3 small-push-1 columns ">
+        <div class="hide">
             <div class="row">
                 <div class="large-10 medium-10 small-8 columns ">
                     <h3>Tank Size:</h3>
@@ -64,7 +76,8 @@
                 </div>
             </div>
         </div>
-        <div class="large-6 medium-6 small-push-1 columns ">
+        <div class="large-1 medium-1 small-push-1 columns ">&nbsp;</div>
+        <div class="large-8 medium-8 small-push-1 columns ">
             <div class="row">
                 <div class="large-12 medium-12 small-12 columns">
                     <h3>Your Estimate:</h3>
@@ -125,7 +138,8 @@
                 totalEstimate: $('#TotalEstimate'),
                 fees: $('.fees'),
                 feesDiv: $('.additional-fees'),
-                isFillUp: $('#isFillUp')
+                isFillUp: $('#isFillUp'),
+                isEmergency: $('#IsEmergencyRequest')
             };
 
             // allow overriding the default config with runtime values
@@ -194,7 +208,7 @@
             var priceLeft = pricePerGallon.substring(0, (pricePerGallon.indexOf(".") + 3));
             var priceRight = pricePerGallon.length > 4 ? pricePerGallon.substring((pricePerGallon.indexOf(".") + 3), (pricePerGallon.length )) : "0";
 
-            return priceRight == "0" ? priceLeft : priceLeft + "<sup>" + priceRight + "</sup>&#8260;<sub>10</sub>";
+            return priceRight == "0" ? priceLeft : priceLeft + "<sup>" + priceRight + "</sup>";
         },
         _showAdditionalFees: function(priceRange, emptyTank) {
             var show = emptyTank;
@@ -241,6 +255,9 @@
         },
         isFillUp: function() {
             return priceEstimator.config.isFillUp.is(':checked');
+        },
+        isEmergency: function() {
+            return priceEstimator.config.isEmergency.is(':checked');
         }
 
     };

@@ -9670,14 +9670,14 @@ h6 {
   color: #000000 !important;
   position: absolute;
   top: 1.0em;
-  right: 1.0em;
+  right: 2.0em;
   font-size: 16px;
   font-family: 'Arial Narrow';
   font-weight: bold;
 }
 /* line 48, ../sass/chc_topbar.scss */
 .chc-header .truck p sup {
-  font-size: 10px !important;
+  font-size: 11px !important;
   margin-left: 1px;
 }
 /* line 52, ../sass/chc_topbar.scss */

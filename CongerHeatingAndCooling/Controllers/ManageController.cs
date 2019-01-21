@@ -10,6 +10,10 @@ using CHC.Common.Repositories.Customers;
 using CHC.Common.Repositories.OilDelivery;
 using System.Data.Entity;
 using System.Collections.Generic;
+using CHC.Common.Repositories.Announcements;
+using CHC.Entities.Announcements;
+using CHC.Common.Repositories.Office;
+using CHC.Entities.Office;
 
 namespace CongerHeatingAndCooling.Controllers
 {
@@ -20,16 +24,25 @@ namespace CongerHeatingAndCooling.Controllers
 		readonly IServiceAreaRepository serviceAreaRepo;
 		readonly IPricingTierRepository pricingTierRepo;
 		readonly IAccountRepository accountRepo;
+		readonly IAnnouncementRepository announcementRepo;
+		readonly IOfficeRepository officeRepo;
+		readonly IOfficeHourRepository officeHourRepo;
 
 		public ManageController(IServiceAreaTownRepository serviceAreaTownRepo,
 			IServiceAreaRepository serviceAreaRepo,
 			IPricingTierRepository pricingTierRepo,
-			IAccountRepository accountRepo)
+			IAccountRepository accountRepo,
+			IAnnouncementRepository announcementRepo,
+			IOfficeRepository officeRepo,
+			IOfficeHourRepository officeHourRepo )
 		{
 			this.serviceAreaTownRepo = serviceAreaTownRepo;
 			this.serviceAreaRepo = serviceAreaRepo;
 			this.pricingTierRepo = pricingTierRepo;
 			this.accountRepo = accountRepo;
+			this.announcementRepo = announcementRepo;
+			this.officeRepo = officeRepo;
+			this.officeHourRepo = officeHourRepo;
 		}
 
 		[HttpPost]
@@ -122,11 +135,15 @@ namespace CongerHeatingAndCooling.Controllers
 		public ActionResult Pricing()
 		{
 			var pricingTier = pricingTierRepo.Query().Where(s => s.ID == 1).First();
+			var announcements = announcementRepo.Query().Where( a => a.EndDate == null || a.EndDate <= DateTime.Now );
+			var office = officeRepo.Query().Include( x => x.OfficeHours ).First();
 			var model = new PricingTierModel
 			{
 				PricingTier = pricingTier,
 				ServiceAreas = pricingTier.ServiceAreas.ToList(),
-				PriceLevels = pricingTier.PriceLevels.ToList()
+				PriceLevels = pricingTier.PriceLevels.ToList(),
+				Announcements = announcements.ToList(),
+				Office = office
 			};
 			return View(model);
 		}
@@ -158,6 +175,57 @@ namespace CongerHeatingAndCooling.Controllers
 			serviceAreaRepo.BatchAdd(serviceAreaTowns);
 
 			return View(towns);
+		}
+
+		public ActionResult Announcements()
+		{
+			var announcements = announcementRepo.Query().ToList();
+			return View( announcements );
+		}
+
+		[HttpPost]
+		public ActionResult Announcements( List<Announcement> announcements )
+		{
+			if ( announcements[0].ID == 0 )
+				announcementRepo.Add( announcements[0] );
+			else
+				announcementRepo.Update( announcements[0] );
+
+			return RedirectToAction( "Pricing" );
+		}
+
+		public ActionResult Office()
+		{
+			var office = officeRepo.Query().Include( x => x.OfficeHours ).First();
+
+			var missingDays = Enum.GetValues( typeof( DayOfWeek ) ).OfType<DayOfWeek>()
+				.Where( x => !office.OfficeHours.Where( y => y.DayOfWeek == x )
+				.Select( z => z.DayOfWeek ).Contains( x ) )
+				.Select( day => new OfficeHour {
+					OfficeID = office.ID,
+					DayOfWeek = day
+				} );
+
+			office.OfficeHours = office.OfficeHours.Concat( missingDays ).OrderBy( x => x.DayOfWeek).ToList();
+			
+			return View( office );
+		}
+
+		[HttpPost]
+		public ActionResult Office( Office office )
+		{
+			foreach ( var officeHour in office.OfficeHours ) {
+				if ( officeHour.ID > 0 ) {
+					officeHourRepo.Update( officeHour );
+				}
+				else {
+					officeHourRepo.Add( officeHour );
+				}
+			}
+
+			officeRepo.Update( office );
+
+			return RedirectToAction( "Pricing" );
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace CHC.Entities.Services.OilDelivery
             string priceLeft = price.Substring(0, (price.IndexOf(".") + 3));
             string priceRight = price.Length > 4 ? price.Substring(price.IndexOf(".") + 3, 1) : "0";
 
-            return priceRight == "0" ? string.Format("{0:C}", priceLevel.PricePerGallon) : String.Format("${0}<sup>{1}</sup>&#8260;<sub>10</sub>", priceLeft, priceRight);
+            return priceRight == "0" ? string.Format("{0:C}", priceLevel.PricePerGallon) : String.Format("${0}<sup>{1}</sup>", priceLeft, priceRight);
         }
     }
 }

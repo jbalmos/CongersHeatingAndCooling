@@ -1,0 +1,38 @@
+﻿@model CHC.Entities.Office.Office
+@{
+   var check = Session["IsLoggedIn"] as string;
+}
+
+@if ( String.IsNullOrEmpty( check ) ) {
+    Response.RedirectToRoute( new {
+        controller = "manage",
+        action = "pricing"
+    } );
+    Response.End();
+}
+<div class="row">
+    <div class="large-12 columns">
+        <div class="panel transparent">
+            @using ( Html.BeginForm( "Office", "Manage", FormMethod.Post, new { @id = "OfficeForm" } ) ) {
+            @Html.HiddenFor( m => m.ID )
+            @Html.HiddenFor( m => m.Name )
+            @Html.HiddenFor( m => m.Phone )
+            <div class="panel radius">
+                <h1>Office Setup</h1>
+                <h3>Manage your settings below.</h3>
+                <div class="row">
+                    <div class="large-12 columns field-label">
+                        Office Closed: &nbsp; @Html.CheckBoxFor( m => m.IsClosed )
+                    </div>
+                </div>
+                @Html.EditorFor( m => m.OfficeHours, "OfficeHours" )
+                <div class="row">
+                    <div class="large-12 columns text-center">
+                        <a class="button" href="@Url.Action("Pricing", "Manage")">Back</a>
+                        <button type="submit" id="Save">Save</button>
+                    </div>
+                </div>
+            </div>}
+        </div>
+    </div>
+</div>

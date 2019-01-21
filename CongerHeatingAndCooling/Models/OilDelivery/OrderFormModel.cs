@@ -1,6 +1,8 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using CHC.Entities.Office;
+using System;
 
 namespace CongerHeatingAndCooling.Models.OilDelivery
 {
@@ -25,14 +27,21 @@ namespace CongerHeatingAndCooling.Models.OilDelivery
 		public int EstimatedGallons { get; set; }
 		public decimal QuotedPricePerGallon { get; set; }
 		public bool isFillUp { get; set; }
+		public bool IsEmergencyRequest { get; set; }
 		public bool IsUSMilitaryCustomer { get; set; }
 		public bool IsSeniorCitizen { get; set; }
 		public bool IsFuelAssistanceCustomer { get; set; }
 		public bool IsEmergencyPersonnel { get; set; }
-		
+		public Office Office { get; set; }
 
 		public IEnumerable<SelectListItem> FillerPipeLocations { get; set; }
 
-
+		public bool IsOfficeClosed()
+		{
+			var currentTime = DateTime.Now;
+			return Office.IsClosed || !Office.OfficeHours.Any( x => x.DayOfWeek == currentTime.DayOfWeek 
+				&& x.OpeningTime <= currentTime.TimeOfDay 
+				&& x.ClosingTime >= currentTime.TimeOfDay );
+		}
 	}
 }

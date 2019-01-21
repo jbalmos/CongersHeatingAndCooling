@@ -5,13 +5,11 @@
    var check = Session["IsLoggedIn"] as string;
 }
 
-@if (String.IsNullOrEmpty(check))
-{
+@if ( String.IsNullOrEmpty( check ) ) {
 <div class="row">
     <div class="large-12 columns">
         <div class="panel transparent">
-            @using (Html.BeginForm("Login", "Manage", FormMethod.Post, new { @id = "LoginForm", @data_abide = "" }))
-            {
+            @using ( Html.BeginForm( "Login", "Manage", FormMethod.Post, new { @id = "LoginForm", @data_abide = "" } ) ) {
             <h1>Pricing &amp; Delivery Zone Management</h1>
             <br />
             <br />
@@ -51,8 +49,7 @@
     </div>
 </div>
 }
-else
-{
+else {
 <div class="row">
     <div class="large-12 columns">
         <div class="panel transparent">
@@ -64,8 +61,7 @@ else
                         <div class="row">
                             <h1>Change Your Password</h1>
                             <a class="close-reveal-modal">&#215;</a>
-                            @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @id = "ChangePasswordForm", @data_abide = "" }))
-                            {
+                            @using ( Html.BeginForm( "ChangePassword", "Manage", FormMethod.Post, new { @id = "ChangePasswordForm", @data_abide = "" } ) ) {
                             <div class="large-3 columns field-label">
                                 Old Password:
                             </div>
@@ -87,11 +83,10 @@ else
                     </div>
                 </div>
             </div>
-            @using (Html.BeginForm("Pricing", "Manage", FormMethod.Post, new { @id = "PricingForm", @data_abide = "" }))
-            {
+            @using ( Html.BeginForm( "Pricing", "Manage", FormMethod.Post, new { @id = "PricingForm", @data_abide = "" } ) ) {
             <h1>Pricing</h1>
             <br />
-            @Html.HiddenFor(m => m.PricingTier.ID)
+            @Html.HiddenFor( m => m.PricingTier.ID )
             <div class="row">
                 <div class="large-4 columns field-label">
                     Price Model Name
@@ -107,16 +102,16 @@ else
             </div>
             <div class="row">
                 <div class="large-4 columns">
-                    @Html.TextBoxFor(m => m.PricingTier.Description)
+                    @Html.TextBoxFor( m => m.PricingTier.Description )
                 </div>
                 <div class="large-2 columns">
-                    @Html.TextBoxFor(m => m.PricingTier.BurnerPrimingFee)
+                    @Html.TextBoxFor( m => m.PricingTier.BurnerPrimingFee )
                 </div>
                 <div class="large-1 columns">
                     &nbsp;
                 </div>
                 <div class="large-1 columns">
-                    @Html.TextBoxFor(m => m.PricingTier.CreditCardSurcharge)
+                    @Html.TextBoxFor( m => m.PricingTier.CreditCardSurcharge )
                 </div>
                 <div class="large-4 columns">
                     %
@@ -135,7 +130,7 @@ else
                 <div class="large-6 columns field-label">
                 </div>
             </div>
-            @Html.EditorFor(m => m.PriceLevels, "PriceLevel")
+            @Html.EditorFor( m => m.PriceLevels, "PriceLevel" )
             <div class="row">
                 <div class="large-12 columns text-center">
                     <a class="button" href="#" id="AdjustPrices" data-reveal-id="globalPriceAdjuster">Adjust All</a>
@@ -143,21 +138,88 @@ else
                     <button type="submit" id="SavePricing">Save</button>
                 </div>
             </div>
+            <h1>Office Hours</h1>
+            <h3>Your current office hours:</h3>
+            <div class="row">
+                <div class="large-4 columns">
+                    <h4>Day</h4>
+                </div>
+                <div class="large-3 columns">
+                    <h4>Opening Time:</h4>
+                </div>
+                <div class="large-3 columns">
+                    <h4>Closing Time:</h4>
+                </div>
+            </div>  foreach ( var officeHour in Model.Office.OfficeHours.OrderBy( x => x.DayOfWeek ) ) {
+                <div class="row">
+                    <div class="large-4 columns">
+                        <h4>@officeHour.DayOfWeek</h4>
+                    </div>
+                    <div class="large-3 columns">
+                        <h4>@officeHour.OpeningTime</h4>
+                    </div>
+                    <div class="large-3 columns">
+                        <h4>@officeHour.ClosingTime</h4>
+                    </div>
+                </div>}
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <a class="button" href="@Url.Action( "Office", "Manage" )">Edit</a>
+                </div>
+            </div>
+
+            <h1>Announcements</h1>
+            <h3>Below are your active annoucements.</h3>
+            <div class="row">
+                <div class="large-4 columns">
+                    <h4>Title</h4>
+                </div>
+                <div class="large-3 columns">
+                    <h4>Effective Date</h4>
+                </div>
+                <div class="large-3 columns">
+                    <h4>Turn Off By:</h4>
+                </div>
+                <div class="large-2 columns">
+                    <h4>Show Alert</h4>
+                </div>
+            </div>    foreach ( var announcement in Model.Announcements ) {
+            <div class="row">
+                <div class="large-4 columns">
+                    <h4>@announcement.Title</h4>
+                </div>
+                <div class="large-3 columns">
+                    <h4>@announcement.StartDate</h4>
+                </div>
+                <div class="large-3 columns">
+                    <h4>@announcement.EndDate</h4>
+                </div>
+                <div class="large-2 columns">
+                    <h4>@Html.Raw( announcement.IsAlert ? "Yes" : "No" )</h4>
+                </div>
+            </div>
+            }
+
+            <div class="row">
+                <div class="large-12 columns text-center">
+                    <a class="button" href="@Url.Action( "Announcements", "Manage" )">Edit</a>
+                </div>
+            </div>
+
             <h1>Delivery Zone</h1>
             <h3>Below are the active towns in the current delivery area.</h3>
             <div class="flow">
                 <ul>
-                    @foreach (string townName in Model.ServiceAreas.ToList().Select(t => t.Town.Name).Distinct())
-                    {
+                    @foreach ( string townName in Model.ServiceAreas.ToList().Select( t => t.Town.Name ).Distinct() ) {
                     <li>@townName</li>}
                 </ul>
             </div>
             <div class="row">
                 <div class="large-12 columns text-center">
-                    <a class="button" href="@Url.Action("ServiceArea", "Manage")">Edit</a>
+                    <a class="button" href="@Url.Action( "ServiceArea", "Manage" )">Edit</a>
                 </div>
             </div>
-            @Html.Partial("_GlobalPriceAdjuster")
+            @Html.Partial( "_GlobalPriceAdjuster" )
 }
         </div>
     </div>

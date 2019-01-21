@@ -66,6 +66,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AbstractDbRepository.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="Repositories\Announcements\DefaultAnnouncementRepository.cs" />
+    <Compile Include="Repositories\Announcements\IAnnouncementRepository.cs" />
+    <Compile Include="Repositories\Office\DefaultOfficeHoursRepository.cs" />
+    <Compile Include="Repositories\Office\DefaultOfficeRepository.cs" />
+    <Compile Include="Repositories\Office\IOfficeHourRepository.cs" />
+    <Compile Include="Repositories\Office\IOfficeRepository.cs" />
     <Compile Include="Repositories\Customers\DefaultAccountRepository.cs" />
     <Compile Include="Repositories\Customers\DefaultCustomerRepository.cs" />
     <Compile Include="Repositories\Customers\DefaultFillPipeLocationRepository.cs" />

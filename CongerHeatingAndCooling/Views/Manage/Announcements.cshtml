@@ -1,0 +1,30 @@
+﻿@model IList<CHC.Entities.Announcements.Announcement>
+@{
+   var check = Session["IsLoggedIn"] as string;
+}
+
+@if ( String.IsNullOrEmpty( check ) ) {
+    Response.RedirectToRoute( new {
+        controller = "manage",
+        action = "pricing"
+    } );
+    Response.End();
+}
+<div class="row">
+    <div class="large-12 columns">
+        <div class="panel transparent">
+            @using ( Html.BeginForm( "Announcements", "Manage", FormMethod.Post, new { @id = "AnnouncementsForm", @data_abide = "" } ) ) {
+            <div class="panel radius">
+                <h1>Announcements</h1>
+                <h3>Manage your annoucements below.</h3>
+               @Html.EditorFor( m => m, "Announcements" )
+                <div class="row">
+                    <div class="large-12 columns text-center">
+                        <a class="button" href="@Url.Action("Pricing", "Manage")">Back</a>
+                        <button type="submit" id="Save">Save</button>
+                    </div>
+                </div>
+            </div>}
+        </div>
+    </div>
+</div>

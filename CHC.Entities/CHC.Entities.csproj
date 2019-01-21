@@ -55,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Announcements\Announcement.cs" />
+    <Compile Include="Announcements\Map\AnnouncementMap.cs" />
+    <Compile Include="Office\Map\OfficeHourMap.cs" />
+    <Compile Include="Office\Map\OfficeMap.cs" />
+    <Compile Include="Office\Office.cs" />
+    <Compile Include="Office\OfficeHour.cs" />
     <Compile Include="Customers\Account.cs" />
     <Compile Include="Customers\ContactRequest.cs" />
     <Compile Include="Customers\Customer.cs" />

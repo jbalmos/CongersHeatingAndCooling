@@ -1,5 +1,7 @@
 ﻿using System.Data.Entity;
+using CHC.Entities.Announcements.Map;
 using CHC.Entities.Customers.Map;
+using CHC.Entities.Office.Map;
 using CHC.Entities.Services.OilDelivery.Map;
 
 namespace CHC.Common
@@ -36,6 +38,11 @@ namespace CHC.Common
 			modelBuilder.Configurations.Add(new DeliveryRequestFeeMap());
 
 			modelBuilder.Configurations.Add(new ContactRequestMap());
+
+			modelBuilder.Configurations.Add( new AnnouncementMap() );
+
+			modelBuilder.Configurations.Add( new OfficeMap() );
+			modelBuilder.Configurations.Add( new OfficeHourMap() );
 		}
 	}
 }

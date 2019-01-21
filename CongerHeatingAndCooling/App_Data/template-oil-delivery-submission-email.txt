@@ -21,6 +21,7 @@
     </table>
     <br />
     <h1>Request for Oil Delivery</h1>
+	 {EmergencyRequest}
     <table>
         <tr>
             <td valign="top">
