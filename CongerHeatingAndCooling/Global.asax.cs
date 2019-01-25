@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using log4net;
 using System.Web;
+using System.IO;
 
 namespace CongerHeatingAndCooling
 {
@@ -22,7 +23,7 @@ namespace CongerHeatingAndCooling
 		protected void Application_Start()
 		{
 			autofacContainer = InitializeAutofac();
-			log4net.Config.XmlConfigurator.Configure();
+			log4net.Config.XmlConfigurator.Configure( new FileInfo( Server.MapPath( "~/Web.config" ) ) );
 
 			InitializeMvc( autofacContainer );
 		}

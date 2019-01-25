@@ -213,39 +213,42 @@
     }
 <div id="zipModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <h3 id="modalTitle">Lets Get Started</h3>
-    <!--
-     <div class="row">
-        <div class="large-6 columns text-right">
-            If you have ordered before:
+    <form data-abide="ajax" id="zipcodeSelector">
+        <!--
+         <div class="row">
+            <div class="large-6 columns text-right">
+                If you have ordered before:
+            </div>
+            <div class="large-6 columns">
+                <input id="ExistingCustomerEmail" type="text" maxlength="5" title="Zip code" pattern="email" placeholder="Enter your email" />
+            </div>
         </div>
-        <div class="large-6 columns">
-            <input id="ExistingCustomerEmail" type="text" maxlength="5" title="Zip code" pattern="email" placeholder="Enter your email" />
+        <div class="row">
+            <div class="large-12 columns text-center">
+                <p><strong>- OR -</strong></p>
+            </div>
+        </div>-->
+        <div class="row">
+            <div class="large-5 columns text-right">
+                Please provide your zip code:
+            </div>
+            <div class="large-4 columns">
+                <input id="ZipCode" type="text" maxlength="5" title="Zip code" pattern="[0-9]{5,5}" required="required" placeholder="Enter your zip " />
+                <small class="error">In order to provide the best prices possible we require your delivery zip code.</small>
+            </div>
+            <div class="large-3 columns" />
         </div>
-    </div>
-    <div class="row">
-        <div class="large-12 columns text-center">
-            <p><strong>- OR -</strong></p>
+        <div class="row">
+            <div class="large-12 columns text-center">
+                <button type="submit" title="Continue" id="SelectZipcode">Continue</button>
+            </div>
         </div>
-    </div>-->
-    <div class="row">
-        <div class="large-6 columns text-right">
-            Please provide your zip code:
+        <div class="row">
+            <div class="large-12 columns text-center">
+                <h4>We will contact you to confirm this order before any delivery is made.</h4>
+            </div>
         </div>
-        <div class="large-3 columns">
-            <input id="ZipCode" type="text" maxlength="5" title="Zip code" pattern="number" placeholder="Enter your zip " />
-        </div>
-        <div class="large-3 columns"/>
-    </div>
-    <div class="row">
-        <div class="large-12 columns text-center">
-            <button>Continue</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="large-12 columns text-center">
-            <h4>We will contact you to confirm this order before any delivery is made.</h4>
-        </div>
-    </div>
+        </form>
 </div>
 
 <div id="confirmationModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
@@ -277,8 +280,13 @@
 @section scripts {
 <script type="text/javascript">
     $(function () {
+
         $('#zipModal').foundation('reveal', 'open');
-        $('#zipModal button').on('click', function() {
+        //
+        $('#zipModal button').on('click', function () {
+            $(this).trigger('validate.fndtn.abide')
+        });
+        $('#zipcodeSelector').on('valid', function () {
             $('#zipModal').foundation('reveal', 'close');
             var zipCode = $('#ZipCode').val();
             $('#OrderForm').load('@Url.Action("GetPricing", "OilDelivery")?zipCode=' + zipCode);
@@ -294,7 +302,7 @@
         $("#orderForm").on('valid', function () {
             $("button[type='submit']").val("Please Wait...").attr('disabled', 'disabled');
 
-        @if ( Model.IsOfficeClosed() ) {
+            @if ( Model.IsOfficeClosed() ) {
             <text>
             if (priceEstimator.isEmergency()) {
                 $('#afterHoursEmergencyNotice').show();
@@ -305,9 +313,9 @@
             }
             </text>
         }
-        $('#confirmationModal').foundation('reveal', 'open');
+            $('#confirmationModal').foundation('reveal', 'open');
 
-        var orderFormModel = {
+            var orderFormModel = {
                 Email: $('#Email').val(),
                 FirstName: $('#FirstName').val(),
                 LastName: $('#LastName').val(),
@@ -325,7 +333,7 @@
                 FillerPipeLocation: $('#FillerPipeLocations option:selected').text(),
                 TankSize: priceEstimator.getTankSize(),
                 TankLevel: priceEstimator.getTankLevel(),
-                OilDeliveryPriceLevelID: priceEstimator.getCurrentPriceRange().ID,
+                OilDeliveryPriceLevelID: priceEstimator.getCurrentPriceRange(),
                 RequiresBurnerPriming: priceEstimator.getTankLevel() == 0,
                 EstimatedGallons: priceEstimator.getEstimatedGallons(),
                 isFillUp: priceEstimator.isFillUp(),
@@ -333,13 +341,13 @@
             };
 
             $.ajax({
-                 url: '@Url.Action("Order", "OilDelivery")',
+                url: '@Url.Action("Order", "OilDelivery")',
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(orderFormModel),
                 dataType: "json"
             });
-         });
+        });
     });
 </script>
 }

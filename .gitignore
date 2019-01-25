@@ -195,3 +195,5 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 /CongerHeatingAndCooling/Web.config
+/CongerHeatingAndCooling/chc.log.2019-01-23
+/CongerHeatingAndCooling/chc.log.2019-01-21

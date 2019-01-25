@@ -136,7 +136,7 @@ namespace CongerHeatingAndCooling.Controllers
 					DeliveryRequest = request
 				});
 			}
-			if (model.OilDeliveryPriceLevelID.HasValue)
+			if (model.OilDeliveryPriceLevelID.HasValue && model.OilDeliveryPriceLevelID > 0)
 			{
 				price = pricingTier.PriceLevels.Where(l => l.ID == model.OilDeliveryPriceLevelID).First();
 				request.PricePerGallon = price.PricePerGallon;
