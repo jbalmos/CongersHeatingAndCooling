@@ -21,6 +21,7 @@
                 <div class="row">
                     <div class="large-12 columns text-center">
                         <a class="button" href="@Url.Action("Pricing", "Manage")">Back</a>
+                        <button type="submit" id="Add">Add</button>
                         <button type="submit" id="Save">Save</button>
                     </div>
                 </div>
@@ -28,3 +29,39 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#Add').on('click', function (event) {
+                event.preventDefault();
+                var row = $('.announcement:last');
+                var clone = row.clone();
+
+                $.each(clone.find('input'),
+                    function (index, value) {
+                        var input = $(value);
+                        var index = parseInt(input.attr("name").match(/\d+/g), 10) + 1;
+                        //input.attr('id', input.attr('id').replace(/\d+/, index));
+                        input.attr('name', input.attr('name').replace(/\d+/, index));
+                        input.attr('value', '');
+                    }
+                );
+                var deleteButton = clone.find('button');
+                deleteButton.on('click', function (event) {
+                    event.preventDefault();
+                    var row = $(this).closest('.announcement').remove();
+                    return false;
+                });
+                clone.insertAfter(row);
+                $(document).foundation('reveal', 'reflow');
+                return false;
+            });
+            $('.delete-announcement').on('click', function (event) {
+                event.preventDefault();
+                var row = $(this).closest('.announcement').remove();
+                return false;
+            });
+        });
+</script>
+}

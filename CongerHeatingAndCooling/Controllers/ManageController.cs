@@ -135,7 +135,7 @@ namespace CongerHeatingAndCooling.Controllers
 		public ActionResult Pricing()
 		{
 			var pricingTier = pricingTierRepo.Query().Where(s => s.ID == 1).First();
-			var announcements = announcementRepo.Query().Where( a => a.EndDate == null || a.EndDate <= DateTime.Now );
+			var announcements = announcementRepo.Query().Where( a => a.EndDate == null || DateTime.Now <= a.EndDate );
 			var office = officeRepo.Query().Include( x => x.OfficeHours ).First();
 			var model = new PricingTierModel
 			{
@@ -186,11 +186,17 @@ namespace CongerHeatingAndCooling.Controllers
 		[HttpPost]
 		public ActionResult Announcements( List<Announcement> announcements )
 		{
-			if ( announcements[0].ID == 0 )
-				announcementRepo.Add( announcements[0] );
-			else
-				announcementRepo.Update( announcements[0] );
-
+			var ids = announcements.Select( a => a.ID );
+			var deletedAnnouncements = announcementRepo.Query().Where( d => !ids.Contains( d.ID ) ).ToList();
+			foreach(var deletedAnnouncment in deletedAnnouncements ) {
+				announcementRepo.Delete( deletedAnnouncment );
+			}
+			foreach ( var announcement in announcements ) {
+				if ( announcement.ID == 0 )
+					announcementRepo.Add( announcement );
+				else
+					announcementRepo.Update( announcement );
+			}
 			return RedirectToAction( "Pricing" );
 		}
 
