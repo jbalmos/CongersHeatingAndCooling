@@ -386,6 +386,7 @@
     <Content Include="Scripts\jquery-2.1.3.min.map" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.marquee.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
