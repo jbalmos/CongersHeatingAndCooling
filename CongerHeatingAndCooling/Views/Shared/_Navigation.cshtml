@@ -66,4 +66,50 @@
             </nav>
         </div>
     </div>
+    @if ( Model.Announcements.Any() ) {
+    <div class="large-12 columns">
+        <div class="transparent">
+            <marquee behavior="scroll" direction="up" scrollamount="1" height="50" width="100%">
+                <ul>
+                @foreach ( var annoucement in Model.Announcements ) {
+                   <li>
+                       <h4 class="announcement-header">@annoucement.Item1</h4>
+                       @annoucement.Item2
+                    </li>
+                }
+                </ul>
+            </marquee>
+        </div>
+    </div>
+    }
 </div>
+
+@if ( Model.Alerts.Any() ) {
+<div id="alertModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    @for ( int i = 0; i < Model.Alerts.Count(); i++ ) {
+    <div id="@string.Format("alert-{0}", i)">
+        <h2 id="modalTitle">@Model.Alerts[i].Item1</h2>
+        <div class="row">
+            <div class="large-12 columns">
+                <ul>
+                    <li>
+                        @Model.Alerts[i].Item2
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    }
+    @if ( Model.Alerts.Count > 1 ) {
+        <div class="pagination-centered">
+            <ul class="pagination" role="menubar" aria-label="Pagination">
+                <li class="arrow"><a id="prevAlert" href="#">&laquo; Previous</a></li>
+                <li class="arrow"><a id="nextAlert" href="#">Next &raquo;</a></li>
+            </ul>
+        </div>
+    }
+    <br />
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+}

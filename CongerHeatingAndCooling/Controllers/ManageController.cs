@@ -197,6 +197,8 @@ namespace CongerHeatingAndCooling.Controllers
 				else
 					announcementRepo.Update( announcement );
 			}
+			// Reset this on save so users see updated announcements
+			Session["AlertsTriggered"] = null;
 			return RedirectToAction( "Pricing" );
 		}
 

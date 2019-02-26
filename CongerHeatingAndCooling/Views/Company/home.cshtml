@@ -82,3 +82,30 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            if ($('#alertModal').length) {
+                var alertIndex = 1;
+                modal = $('#alertModal')
+                modal.foundation('reveal', 'open');
+                $('#prevAlert', modal).on('click', function () {
+                    if ($('#alert-' + (alertIndex - 1)).length) {
+                        $('#alert-' + alertIndex).hide();
+                        alertIndex--;
+                        $('#alert-' + alertIndex).show();
+                    }
+                });
+                $('#nextAlert', modal).on('click', function () {
+                    if ($('#alert-' + (alertIndex + 1)).length) {
+                        $('#alert-' + alertIndex).hide();
+                        alertIndex++;
+                        $('#alert-' + alertIndex).show();
+                    }
+                });
+                $('#prevAlert', modal).trigger('click');
+            }
+        });
+    </script>
+}

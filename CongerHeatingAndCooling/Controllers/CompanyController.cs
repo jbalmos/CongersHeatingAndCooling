@@ -10,144 +10,152 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using CHC.Common.Repositories.Announcements;
 
 namespace CongerHeatingAndCooling.Controllers
 {
-    public class CompanyController : Controller
-    {
-        readonly IServiceAreaRepository serviceAreaRepo;
-        readonly IPricingTierRepository pricingTierRepo;
+	public class CompanyController : Controller
+	{
+		readonly IServiceAreaRepository serviceAreaRepo;
+		readonly IPricingTierRepository pricingTierRepo;
+		readonly IAnnouncementRepository announcementRepo;
 
-        public CompanyController( IServiceAreaRepository serviceAreaRepo,
-            IPricingTierRepository pricingTierRepo )
-        {
-            this.serviceAreaRepo = serviceAreaRepo;
-            this.pricingTierRepo = pricingTierRepo;
+		  public CompanyController( IServiceAreaRepository serviceAreaRepo,
+				IPricingTierRepository pricingTierRepo,
+				IAnnouncementRepository announcementRepo )
+		{
+			this.serviceAreaRepo = serviceAreaRepo;
+			this.pricingTierRepo = pricingTierRepo;
+			this.announcementRepo = announcementRepo;
 
-        }
-        //
-        // GET: /Home/
+		}
+		//
+		// GET: /Home/
 
-        public ActionResult Home()
-        {
-            HomeModel model = new HomeModel
-            {
-                ServiceAreas = serviceAreaRepo.Query().OrderBy( a => a.Town.Name).Select(a => a.Town.Name).ToList()
-            };
-            return View(model);
-        }
+		public ActionResult Home()
+		{
+			HomeModel model = new HomeModel {
+				ServiceAreas = serviceAreaRepo.Query().OrderBy( a => a.Town.Name ).Select( a => a.Town.Name ).ToList()
+			};
+			
+			return View( model );
+		}
 
-        public PartialViewResult Navigation()
-        {
-            var price = pricingTierRepo.Query().SelectMany(t => t.PriceLevels).OrderBy(l => l.PricePerGallon).First();
-            
-            NavigationModel model = new NavigationModel
-            {
-                PricePerGallon = price.FractionalHtmlFormattedPrice(),
-                MimimumGallons = price.GallonRangeStart.ToString()
-            };
-            return PartialView("_Navigation", model);
-        }
+		public PartialViewResult Navigation()
+		{
+			var price = pricingTierRepo.Query().SelectMany( t => t.PriceLevels ).OrderBy( l => l.PricePerGallon ).First();
+			var announcements = announcementRepo.Query().Where( a => a.EndDate == null || DateTime.Now <= a.EndDate ).ToList();
 
-        //
-        // GET: /Home/
+			NavigationModel model = new NavigationModel {
+				PricePerGallon = price.FractionalHtmlFormattedPrice(),
+				MimimumGallons = price.GallonRangeStart.ToString(),
+				
+				Announcements = announcements.Where( x => !x.IsAlert ).Select( x => new Tuple<string, string>( x.Title, x.Content ) ).ToList()
+			};
+			if ( Session["AlertsTriggered"] == null ) {
+				model.Alerts = announcements.Where( x => x.IsAlert ).Select( x => new Tuple<string, string>( x.Title, x.Content ) ).ToList();
+				var rd = ControllerContext.ParentActionViewContext.RouteData;
+				var currentAction = rd.GetRequiredString( "action" );
+				var currentController = rd.GetRequiredString( "controller" );
+				if(currentAction.ToLower() == "home" && currentController.ToLower() == "company") {
+					Session["AlertsTriggered"] = true;
+				}
+			}
+			return PartialView( "_Navigation", model );
+		}
 
-        public ActionResult About()
-        {
-            return View();
-        }
+		//
+		// GET: /Home/
 
-        //
-        // GET: /Home/
+		public ActionResult About()
+		{
+			return View();
+		}
 
-        public ActionResult Products()
-        {
-            return View();
-        }
+		//
+		// GET: /Home/
 
-        //
-        // GET: /Home/
+		public ActionResult Products()
+		{
+			return View();
+		}
 
-        public ActionResult Services()
-        {
-            ContactForm contactForm = (TempData["ContactForm"] == null) ? new ContactForm() : TempData["ContactForm"] as ContactForm;
-            
-            return View();
-        }
+		//
+		// GET: /Home/
 
-        [HttpPost]
-        public ActionResult Services(FormCollection formCollection)
-        {
-            string requestType = formCollection["rblRequestType"];
-            string subject = string.Format("{0} for {1} {2}", requestType, formCollection["FirstName"], formCollection["LastName"]);
-            string emailTemplate;
-            string smsTemplate;
-            bool isHighPriority = false;
+		public ActionResult Services()
+		{
+			ContactForm contactForm = (TempData["ContactForm"] == null) ? new ContactForm() : TempData["ContactForm"] as ContactForm;
 
-            string filePath = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-service-request-submission-email.txt");
-            
-            using (StreamReader streamReader = new StreamReader(filePath, Encoding.ASCII))
-            {
-                emailTemplate = streamReader.ReadToEnd();
-            }
+			return View();
+		}
 
-            if (requestType.Equals("Emergency Service Request"))
-            {
-                filePath = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-emergency-service-request-submission-sms.txt");
-                isHighPriority = true;
-            }
-            else
-            {
-                filePath = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-service-request-submission-sms.txt");
-            }
+		[HttpPost]
+		public ActionResult Services( FormCollection formCollection )
+		{
+			string requestType = formCollection["rblRequestType"];
+			string subject = string.Format( "{0} for {1} {2}", requestType, formCollection["FirstName"], formCollection["LastName"] );
+			string emailTemplate;
+			string smsTemplate;
+			bool isHighPriority = false;
 
-            using (StreamReader streamReader = new StreamReader(filePath, Encoding.ASCII))
-            {
-                smsTemplate = streamReader.ReadToEnd();
-            }
+			string filePath = Path.Combine( HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-service-request-submission-email.txt" );
 
-            // Make constants
-            string requestedServiceItemList = string.Empty;
-            string prefixServiceItem = "rblServiceItem";
+			using ( StreamReader streamReader = new StreamReader( filePath, Encoding.ASCII ) ) {
+				emailTemplate = streamReader.ReadToEnd();
+			}
 
-            foreach (string key in formCollection.AllKeys)
-            {
-                if (key.StartsWith(prefixServiceItem))
-                {
-                    requestedServiceItemList += string.Format("{0}\r\n", formCollection[key]);
-                }
-                else
-                {
-                    emailTemplate = emailTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
-                    smsTemplate = smsTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
-                }
-            }
+			if ( requestType.Equals( "Emergency Service Request" ) ) {
+				filePath = Path.Combine( HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-emergency-service-request-submission-sms.txt" );
+				isHighPriority = true;
+			}
+			else {
+				filePath = Path.Combine( HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-service-request-submission-sms.txt" );
+			}
 
-            emailTemplate = emailTemplate.Replace(string.Format(@"{{{0}}}", prefixServiceItem), requestedServiceItemList);
+			using ( StreamReader streamReader = new StreamReader( filePath, Encoding.ASCII ) ) {
+				smsTemplate = streamReader.ReadToEnd();
+			}
 
-            string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
+			// Make constants
+			string requestedServiceItemList = string.Empty;
+			string prefixServiceItem = "rblServiceItem";
 
-            UtilitySmtp.SendSmsMessage(requestType, smsTemplate, isHighPriority);
-            UtilitySmtp.SendSmtpMessage(recipients, subject, emailTemplate, false, isHighPriority);
+			foreach ( string key in formCollection.AllKeys ) {
+				if ( key.StartsWith( prefixServiceItem ) ) {
+					requestedServiceItemList += string.Format( "{0}\r\n", formCollection[key] );
+				}
+				else {
+					emailTemplate = emailTemplate.Replace( string.Format( @"{{{0}}}", key ), formCollection[key] );
+					smsTemplate = smsTemplate.Replace( string.Format( @"{{{0}}}", key ), formCollection[key] );
+				}
+			}
 
-            return RedirectToAction("Success");
-        }
+			emailTemplate = emailTemplate.Replace( string.Format( @"{{{0}}}", prefixServiceItem ), requestedServiceItemList );
 
-        //
-        // GET: /Testimonials/
+			string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split( ',' );
 
-        public ActionResult Testimonials()
-        {
-            return View();
-        }
+			UtilitySmtp.SendSmsMessage( requestType, smsTemplate, isHighPriority );
+			UtilitySmtp.SendSmtpMessage( recipients, subject, emailTemplate, false, isHighPriority );
 
-        //
-        // GET: /Success/
+			return RedirectToAction( "Success" );
+		}
 
-        public ActionResult Success()
-        {
-            return View();
-        }
+		//
+		// GET: /Testimonials/
 
-    }
+		public ActionResult Testimonials()
+		{
+			return View();
+		}
+
+		//
+		// GET: /Success/
+
+		public ActionResult Success()
+		{
+			return View();
+		}
+
+	}
 }
