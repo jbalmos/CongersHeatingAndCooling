@@ -5,7 +5,7 @@
 <div class="row">
     <div class="large-12 columns">
         <div class="panel transparent">
-            @using (Html.BeginForm("ContactUs", "Support", FormMethod.Post, new { @id = "SubmitContactUsForm", @data_abide = "ajax" })) {
+            @using (Html.BeginForm("ContactUs", "Support", FormMethod.Post, new { @id = "SubmitContactUsForm", @data_abide = "ajax", @autocomplete = "off" } )) {
             <h1>Contact Us</h1>
             <p>Please use the form below to get in touch with us. We will reply to your email within 24 - 48 hours depending on the volume of 
                     mail in our queue,</p>
@@ -22,6 +22,7 @@
                             <small class="error">A valid first name is required.</small>
                         </div>
                         <div class="large-4 columns">
+                            @Html.TextBox( "MobilePhone" )
                         </div>
                     </div>
                     <div class="row">
@@ -121,8 +122,12 @@
 @section scripts {
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#MobilePhone").hide();
 
         $("#SubmitContactUsForm").on('valid', function () {
+            if ($("#MobilePhone").val().length != 0) {
+                return false;
+            }
             if ($("select[id=ContactPurpose] option:selected").text() == "Emergency Oil Delivery") {
                 if ($("#Phone").val().length == 0) {
                     $('#emergencyServiceNoteModal').foundation('reveal', 'open');  // show dialog
