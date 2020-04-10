@@ -59,6 +59,27 @@ namespace CongerHeatingAndCooling.Controllers
 		}
 
 		[HttpGet]
+		[OutputCacheAttribute( VaryByParam = "*", Duration = 0, NoStore = true )]
+		public ActionResult Redirect()
+		{
+			return View( "Redirect" );
+		}
+
+		[HttpGet]
+		[OutputCacheAttribute( VaryByParam = "*", Duration = 0, NoStore = true )]
+		public ActionResult NewCustomer()
+		{
+			return View( "Redirect", ( object)"https://www.congersheatingandcoolingte.com/NCMM93YDL82/" );
+		}
+
+		[HttpGet]
+		[OutputCacheAttribute( VaryByParam = "*", Duration = 0, NoStore = true )]
+		public ActionResult ExistingCustomer()
+		{
+			return View( "Redirect", (object)"https://www.congersheatingandcoolingte.com/CU8CPM629/Login.aspx?ReturnUrl=%2fCU8CPM629%2f" );
+		}
+		/*
+		[HttpGet]
 		public ActionResult Order()
 		{
 			var office = officeRepo.Query().Include( x => x.OfficeHours ).First();
@@ -164,7 +185,7 @@ namespace CongerHeatingAndCooling.Controllers
 
 			return Json(new { Success = false });
 		}
-
+		*/
 		private void SendRequestNotification(OrderFormModel model, PricingTier pricingTier)
 		{
 			var emailTemplate = Path.Combine(HttpContext.Request.PhysicalApplicationPath, @"App_Data\template-oil-delivery-submission-email.txt");

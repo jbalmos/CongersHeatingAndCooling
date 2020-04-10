@@ -13,6 +13,7 @@
 
     @RenderSection( "head", required: false )
     @Scripts.Render( "~/bundles/modernizr" )
+    <script src="https://www.google.com/recaptcha/api.js?render=6LcOzaEUAAAAAE_PP8e5StgsUcGwk3Y_BGeExECK"></script>
 </head>
 <body>
     <div id="fb-root"></div>
@@ -44,9 +45,6 @@
             reveal: { close_on_background_click: false }
         }
         );
-        $(document).ready(function () {
-            
-        });
     </script>
     @*Use the Scripts section to define page specific scripts*@
     @RenderSection( "scripts", required: false )

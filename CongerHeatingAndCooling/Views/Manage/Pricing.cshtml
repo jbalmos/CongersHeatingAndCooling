@@ -156,10 +156,10 @@ else {
                         <h4>@officeHour.DayOfWeek</h4>
                     </div>
                     <div class="large-3 columns">
-                        <h4>@officeHour.OpeningTime</h4>
+                        <h4>@Html.Raw(officeHour.OpeningTime.HasValue ? DateTime.Today.Add( officeHour.OpeningTime.Value ).ToString( "hh:mm tt" ) : "")</h4>
                     </div>
                     <div class="large-3 columns">
-                        <h4>@officeHour.ClosingTime</h4>
+                        <h4>@Html.Raw( officeHour.ClosingTime.HasValue ? DateTime.Today.Add( officeHour.ClosingTime.Value ).ToString( "hh:mm tt" ) : "" )</h4>
                     </div>
                 </div>}
             <div class="row">

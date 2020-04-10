@@ -1,139 +1,147 @@
 ﻿using CongerHeatingAndCooling.Models;
 using CongerHeatingAndCooling.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace CongerHeatingAndCooling.Controllers
 {
-    public class SupportController : Controller
-    {
-        public SupportController()
-        {
-        }
-        
-        public ActionResult ContactUs()
-        {
-            return View(new ContactForm());
-        }
-        
-        [HttpPost]
-        public ActionResult ContactUs(ContactForm contactForm)
-        {
-            if (ModelState.IsValid)
-            {
-                string emailTemplate;
-                string smsTemplate;
-                // check model state
-                if (contactForm.ContactPurpose.Equals("Service Request"))
-                {
-                    TempData["ContactForm"] = contactForm;
-                    return RedirectToAction("Services", "Company");
-                }
-                else
-                {
-                    using (StreamReader streamReader = new StreamReader(contactForm.EmailTemplatePath(HttpContext.Request.PhysicalApplicationPath), Encoding.ASCII))
-                    {
-                        emailTemplate = streamReader.ReadToEnd();
-                    }
+	public class SupportController : Controller
+	{
+		private readonly string _googleVerifyAddress = "https://www.google.com/recaptcha/api/siteverify";
+		private readonly string _googleRecaptchaSecret = "6LcOzaEUAAAAAOzMnU4aC0SMyRs-ZCP8dSvI_sih";
 
-                    if (contactForm.ContactPurpose.Equals("Emergency Service Request"))
-                    {
-                        contactForm.IsHighPriority = true;
-                    }
+		public SupportController()
+		{
+		}
 
-                    string filePath = (contactForm.IsHighPriority) ? contactForm.EmergencySmsTemplatePath(HttpContext.Request.PhysicalApplicationPath) : contactForm.SmsTemplatePath(HttpContext.Request.PhysicalApplicationPath);
-                    using (StreamReader streamReader = new StreamReader(filePath, Encoding.ASCII))
-                    {
-                        smsTemplate = streamReader.ReadToEnd();
-                    }
+		public ActionResult ContactUs()
+		{
+			return View( new ContactForm() );
+		}
 
-                    var formCollection = Request.Form;
+		private bool RecaptchaV3Passed(string token)
+		{
+			TokenResponse tokenResponse = new TokenResponse() {
+				Success = false
+			};
 
-                    foreach (string key in formCollection.AllKeys)
-                    {
-                        emailTemplate = emailTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
-                        smsTemplate = smsTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
-                    }
+			using ( var client = HttpClientFactory.Create() ) {
+				var response = client.GetStringAsync( $"{_googleVerifyAddress}?secret={_googleRecaptchaSecret}&response={token}" );
+				tokenResponse = JsonConvert.DeserializeObject<TokenResponse>( response.Result );
+				return tokenResponse.Success && tokenResponse.Score > 0.4m;
+			}
+		}
 
-                    string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
+		
+		[HttpPost]
+		public ActionResult ContactUs( ContactForm contactForm )
+		{
+			contactForm.RecaptchaFailed = !RecaptchaV3Passed( contactForm.RecaptchaTokenResponse );
+			if ( ModelState.IsValid && !contactForm.RecaptchaFailed ) {
+				string emailTemplate;
+				string smsTemplate;
+				// check model state
+				if ( contactForm.ContactPurpose.Equals( "Service Request" ) ) {
+					TempData["ContactForm"] = contactForm;
+					return RedirectToAction( "Services", "Company" );
+				}
+				else {
+					using ( StreamReader streamReader = new StreamReader( contactForm.EmailTemplatePath( HttpContext.Request.PhysicalApplicationPath ), Encoding.ASCII ) ) {
+						emailTemplate = streamReader.ReadToEnd();
+					}
 
-                    UtilitySmtp.SendSmsMessage(contactForm.ContactPurpose, smsTemplate, contactForm.IsHighPriority);
-                    UtilitySmtp.SendSmtpMessage(recipients, contactForm.Subject, emailTemplate, false, contactForm.IsHighPriority);
+					if ( contactForm.ContactPurpose.Equals( "Emergency Service Request" ) ) {
+						contactForm.IsHighPriority = true;
+					}
 
-                    return RedirectToAction("Success");
-                }
-            }
-            else
-            {
-                return View();
-            }
-        }
+					string filePath = (contactForm.IsHighPriority) ? contactForm.EmergencySmsTemplatePath( HttpContext.Request.PhysicalApplicationPath ) : contactForm.SmsTemplatePath( HttpContext.Request.PhysicalApplicationPath );
+					using ( StreamReader streamReader = new StreamReader( filePath, Encoding.ASCII ) ) {
+						smsTemplate = streamReader.ReadToEnd();
+					}
 
-        /*
-        [HttpPost]
-        public ActionResult ContactUs(FormCollection formCollection)
-        {
-            ContactForm contactForm = _contactFormRepository.GetContactForm();
+					var formCollection = Request.Form;
 
-            contactForm.ContactPurpose = formCollection["selectContactPurpose"];
-            contactForm.FirstName = formCollection["txtFirstName"];
-            contactForm.LastName =  formCollection["txtLastName"];
-            contactForm.Phone = formCollection["txtPhoneNumber"];
-            contactForm.Email = formCollection["txtEmail"];
-            contactForm.Comments = formCollection["txtAreaComments"];
-            contactForm.IsHighPriority = false;
+					foreach ( string key in formCollection.AllKeys ) {
+						emailTemplate = emailTemplate.Replace( string.Format( @"{{{0}}}", key ), formCollection[key] );
+						smsTemplate = smsTemplate.Replace( string.Format( @"{{{0}}}", key ), formCollection[key] );
+					}
 
-            string emailTemplate;
-            string smsTemplate;
-            // check model state
-            if (contactForm.ContactPurpose.Equals("Service Request"))
-            {
-                TempData["ContactForm"] = contactForm;
-                return RedirectToAction("Services", "Company");
-            }
-            else
-            {
-                using (StreamReader streamReader = new StreamReader(contactForm.EmailTemplatePath(HttpContext.Request.PhysicalApplicationPath), Encoding.ASCII))
-                {
-                    emailTemplate = streamReader.ReadToEnd();
-                }
+					string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split( ',' );
 
-                if (contactForm.ContactPurpose.Equals("Emergency Service Request"))
-                {
-                    contactForm.IsHighPriority = true;
-                }
+					UtilitySmtp.SendSmsMessage( contactForm.ContactPurpose, smsTemplate, contactForm.IsHighPriority );
+					UtilitySmtp.SendSmtpMessage( recipients, contactForm.Subject, emailTemplate, false, contactForm.IsHighPriority );
 
-                string filePath = (contactForm.IsHighPriority) ? contactForm.EmergencySmsTemplatePath(HttpContext.Request.PhysicalApplicationPath) : contactForm.SmsTemplatePath(HttpContext.Request.PhysicalApplicationPath);
-                using (StreamReader streamReader = new StreamReader(filePath, Encoding.ASCII))
-                {
-                    smsTemplate = streamReader.ReadToEnd();
-                }
+					return RedirectToAction( "Success" );
+				}
+			}
+			else {
+				return View( contactForm );
+			}
+		}
 
-                foreach (string key in formCollection.AllKeys)
-                {
-                    emailTemplate = emailTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
-                    smsTemplate = smsTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
-                }
+		/*
+		[HttpPost]
+		public ActionResult ContactUs(FormCollection formCollection)
+		{
+			 ContactForm contactForm = _contactFormRepository.GetContactForm();
 
-                string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
+			 contactForm.ContactPurpose = formCollection["selectContactPurpose"];
+			 contactForm.FirstName = formCollection["txtFirstName"];
+			 contactForm.LastName =  formCollection["txtLastName"];
+			 contactForm.Phone = formCollection["txtPhoneNumber"];
+			 contactForm.Email = formCollection["txtEmail"];
+			 contactForm.Comments = formCollection["txtAreaComments"];
+			 contactForm.IsHighPriority = false;
 
-                UtilitySmtp.SendSmsMessage(contactForm.ContactPurpose, smsTemplate, contactForm.IsHighPriority);
-                UtilitySmtp.SendSmtpMessage(recipients, contactForm.Subject, emailTemplate, false, contactForm.IsHighPriority);
+			 string emailTemplate;
+			 string smsTemplate;
+			 // check model state
+			 if (contactForm.ContactPurpose.Equals("Service Request"))
+			 {
+				  TempData["ContactForm"] = contactForm;
+				  return RedirectToAction("Services", "Company");
+			 }
+			 else
+			 {
+				  using (StreamReader streamReader = new StreamReader(contactForm.EmailTemplatePath(HttpContext.Request.PhysicalApplicationPath), Encoding.ASCII))
+				  {
+						emailTemplate = streamReader.ReadToEnd();
+				  }
 
-                return RedirectToAction("Success");
-            }
-        }
-        */
-        public ActionResult Success()
-        {
-            return View();
-        }
+				  if (contactForm.ContactPurpose.Equals("Emergency Service Request"))
+				  {
+						contactForm.IsHighPriority = true;
+				  }
 
-    }
+				  string filePath = (contactForm.IsHighPriority) ? contactForm.EmergencySmsTemplatePath(HttpContext.Request.PhysicalApplicationPath) : contactForm.SmsTemplatePath(HttpContext.Request.PhysicalApplicationPath);
+				  using (StreamReader streamReader = new StreamReader(filePath, Encoding.ASCII))
+				  {
+						smsTemplate = streamReader.ReadToEnd();
+				  }
+
+				  foreach (string key in formCollection.AllKeys)
+				  {
+						emailTemplate = emailTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
+						smsTemplate = smsTemplate.Replace(string.Format(@"{{{0}}}", key), formCollection[key]);
+				  }
+
+				  string[] recipients = ConfigurationManager.AppSettings["SmtpTo"].Split(',');
+
+				  UtilitySmtp.SendSmsMessage(contactForm.ContactPurpose, smsTemplate, contactForm.IsHighPriority);
+				  UtilitySmtp.SendSmtpMessage(recipients, contactForm.Subject, emailTemplate, false, contactForm.IsHighPriority);
+
+				  return RedirectToAction("Success");
+			 }
+		}
+		*/
+		public ActionResult Success()
+		{
+			return View();
+		}
+
+	}
 }

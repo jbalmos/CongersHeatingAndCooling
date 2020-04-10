@@ -23,6 +23,7 @@
                         </div>
                         <div class="large-4 columns">
                             @Html.TextBox( "MobilePhone" )
+                            @Html.HiddenFor( m => m.RecaptchaTokenResponse )
                         </div>
                     </div>
                     <div class="row">
@@ -120,28 +121,44 @@
 </div>
 
 @section scripts {
+<script>
+    
+</script>
+
 <script type="text/javascript">
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LcOzaEUAAAAAE_PP8e5StgsUcGwk3Y_BGeExECK', { action: 'contact' }).then(function (token) {
+            var recaptchaResponse = document.getElementById('RecaptchaTokenResponse');
+            recaptchaResponse.value = token;
+        });
+    });
+
     $(document).ready(function () {
         $("#MobilePhone").hide();
-
-        $("#SubmitContactUsForm").on('valid', function () {
-            if ($("#MobilePhone").val().length != 0) {
-                return false;
-            }
+        @if(Model.RecaptchaFailed) {
+            <text>alert( 'Your submission was rejected due to failing reCAPTCHA spam check. Please call our office if you feel this is in error.' );</text>
+        }
+        $("#SubmitContactUsForm").on('valid', function (event) {
+            form = this;
             if ($("select[id=ContactPurpose] option:selected").text() == "Emergency Oil Delivery") {
                 if ($("#Phone").val().length == 0) {
                     $('#emergencyServiceNoteModal').foundation('reveal', 'open');  // show dialog
                     return false;
                 }
             }
-            $("#SubmitContactUsForm").submit();
+
+            if ($("#MobilePhone").val().length != 0) {
+                return false;
+            }
+
+            form.submit();
         });
+        
 
         $("#emergencyServiceNoteModal button").on('click', function () {
             $('#emergencyServiceNoteModal').foundation('reveal', 'close');
             $("#SubmitContactUsForm").submit();
         });
-
 
         $("#SubmitContactUsForm").bind("reset", function () {
             var max = 2500;
