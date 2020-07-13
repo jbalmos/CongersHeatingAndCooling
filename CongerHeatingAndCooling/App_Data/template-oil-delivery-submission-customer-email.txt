@@ -5,7 +5,7 @@
     <table>
         <tr>
             <td>
-                <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling" />
+                <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling, Inc" />
             </td>
             <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
                 <b>978.728.4757</b>
@@ -30,7 +30,7 @@
 	 <p>Sincerely,</p>
 	 <p>
 	   Shawn Conger<br />
-		Conger's Heating &amp; Cooling
+		Conger's Heating &amp; Cooling, Inc
 	 </p>
     <h1>Your Delivery Estimate</h1>
 	 {EmergencyRequest}

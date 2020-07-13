@@ -232,7 +232,7 @@ namespace CongerHeatingAndCooling.Controllers
 
 			UtilitySmtp.SendSmsMessage("Oil Delivery Request", smsTemplate, true);
 			UtilitySmtp.SendSmtpMessage(recipients, "Oil Delivery Request", emailTemplate, true, true);
-			UtilitySmtp.SendSmtpMessage(new[] { model.Email }, "Conger's Heating & Cooling: Your Oil Delivery Estimate Confirmation", customerTemplate, true, false);
+			UtilitySmtp.SendSmtpMessage(new[] { model.Email }, "Conger's Heating & Cooling, Inc: Your Oil Delivery Estimate Confirmation", customerTemplate, true, false);
 		}
 
 		private string GetEmailBody( OrderFormModel model )

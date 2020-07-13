@@ -40,7 +40,7 @@ namespace CongerHeatingAndCooling.Utilities
                 smtpClient.Credentials = basicAuthenticationInfo;
 
                 // add from,to mailaddresses
-                MailAddress from = new MailAddress(smtpFrom, "Conger's Heating & Cooling");
+                MailAddress from = new MailAddress(smtpFrom, "Conger's Heating & Cooling, Inc");
                 MailAddress to = new MailAddress(recipients[0]);
                 MailMessage message = new MailMessage(from, to);
 

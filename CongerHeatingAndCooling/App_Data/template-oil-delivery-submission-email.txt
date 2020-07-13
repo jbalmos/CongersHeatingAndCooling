@@ -5,7 +5,7 @@
     <table>
         <tr>
             <td>
-                <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling" />
+                <img src="http://www.congersheatingandcooling.com/Content/Images/Logos/chclogo-small.png" alt="Conger's Heating &amp; Cooling, Inc" />
             </td>
             <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
                 <b>978.728.4757</b>
