@@ -83,6 +83,14 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            $('#newCustomerHref').on('click', function (event) {
+                event.preventDefault();
+                $('#newCustomerModal').foundation('reveal', 'open');
+            });
+            $('#newCustomerModal button').on('click', function () {
+                $('#newCustomerModal').foundation('reveal', 'close');
+                window.open($('#newCustomerHref').attr('href'));
+            });
             if ($('#alertModal').length) {
                 var alertIndex = 1;
                 modal = $('#alertModal')

@@ -4,23 +4,21 @@
         <div class="sticky">
             <div class="transparent chc-header">
                 <div class="row">
-                    <div class="large-3 medium-3 columns">
-                        <a href="~/Company/Home"><img src="~/Content/Images/Logos/chclogo-small.png" class="logo" /></a>
-                    </div>
                     <div class="large-5 medium-5 columns">
-                        <img src="~/Content/Images/licensed-insured-free-estimates.png" alt="Fully Licensed &amp; Insured, Free Estimates!" class="left" />
-                        <a href="~/OilDelivery/Order">
-                        <div class="truck" data-tooltip class="has-tip" title="Per gallon based on a mimimum order of @Model.MimimumGallons gallons. Price subject to vary based on payment method and delivery location. Other conditions may apply. Please call 978.728.4757 or visit our order form for details.">
-                            <p>@Html.Raw(Model.PricePerGallon)</p>
-                            
+                        <a href="~/Company/Home"><img src="~/Content/Images/Logos/chclogo-small.png" class="logo" /></a>
+                        <img src="~/Content/Images/licensed-insured-free-estimates.png" alt="Fully Licensed &amp; Insured, Free Estimates!" class="" />
+                    </div>
+                        <div class="large-3 medium-3 columns">        
+                            <div class="truck" data-tooltip class="has-tip" title="Per gallon based on a mimimum delivery of @Model.MimimumGallons gallons. Price subject to vary based on amount of gallons delivered and location. Other conditions may apply. Please call 978.728.4757 with any questions.">
+                                <p>@Html.Raw(Model.PricePerGallon)</p>
+
+                            </div> 
                         </div>
-                        </a>
+                        <div class="large-4 medium-4 columns right">
+                            <img src="~/Content/Images/accepted-cards-small.png" class="acceptedCards" />
+                            <div><span>FOR OIL DELIVERY EMERGENCY CALL:</span> 978.870.4945</div>
+                        </div>
                     </div>
-                    <div class="large-4 medium-4 columns right">
-                        <img src="~/Content/Images/accepted-cards-small.png" class="acceptedCards"/>
-                        <div><span>FOR OIL DELIVERY EMERGENCY CALL:</span> 978.870.4945</div>
-                    </div>
-                </div>
             </div>
             <nav class="top-bar" data-topbar role="navigation"  data-options="scrolltop: false">
                 <section class="top-bar-section">
@@ -47,7 +45,7 @@
                     <a href="#">Oil Delivery</a>
                     <ul class="dropdown">
                         <li><a href="~/OilDelivery/ServiceArea">Delivery Area</a></li>
-                        <li><a href="https://www.congersheatingandcoolingte.com/NCMM93YDL82/" target="_new">New Customers</a></li>
+                        <li><a id="newCustomerHref" href="https://www.congersheatingandcoolingte.com/NCMM93YDL82/" target="_new">New Customers</a></li>
                         <li><a href="https://www.congersheatingandcoolingte.com/CU8CPM629/Login.aspx?ReturnUrl=%2fCU8CPM629%2f" target="_new">Existing Customers</a></li>
                         <!--<li><a href="~/OilDelivery/NewCustomer">New Customers</a></li>
                         <li><a href="~/OilDelivery/ExistingCustomer">Existing Customers</a></li>
@@ -118,3 +116,23 @@
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
 }
+
+<div id="newCustomerModal" class="reveal-modal small" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div>
+        <h2 id="modalTitle">New Customer Notice</h2>
+        <div class="row">
+            <div class="large-12 columns">
+                <p>
+                    For our best price per gallon, your delivery must be 150 gallons or more. Also, deliveries below 100 gallons will be subject to a minimum
+                    delivery fee ranging from $25.00 - $60.00. Please call the office for details regarding our different PPG tiers.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns text-center">
+                <button>Continue</button>
+            </div>
+        </div>
+    </div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
