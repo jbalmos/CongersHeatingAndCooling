@@ -10,7 +10,7 @@
             <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
                 <b>978.728.4757</b>
                 <p>
-                    22B Pratts Junction Road<br />
+                    PO Box 92<br />
                     Sterling, MA 01564
                 </p>
             </td>
