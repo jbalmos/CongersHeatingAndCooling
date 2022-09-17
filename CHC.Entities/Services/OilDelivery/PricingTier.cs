@@ -14,7 +14,7 @@ namespace CHC.Entities.Services.OilDelivery
         public string Description { get; set; }
         public decimal CreditCardSurcharge { get; set; }
         public decimal BurnerPrimingFee { get; set; }
-
+        public bool ShowPricing { get; set; }
         public virtual ICollection<ServiceArea> ServiceAreas { get; set; }
         public virtual ICollection<PriceLevel> PriceLevels { get; set; }
     }

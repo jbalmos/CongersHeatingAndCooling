@@ -10,8 +10,8 @@
             <td valign="bottom" style="margin-left: 10%; margin-right:10%;">
                 <b>978.728.4757</b>
                 <p>
-                    PO Box 92<br />
-                    Sterling, MA 01564
+                    PO Box 984<br />
+                    Barre, MA 01005
                 </p>
             </td>
             <td valign="bottom">

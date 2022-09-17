@@ -222,6 +222,7 @@
     <Content Include="Content\Images\Logos\RapidSSL_SEAL-90x50.gif" />
     <Content Include="Content\Images\oil-hvac-trucks.jpg" />
     <Content Include="Content\Images\oil-service-trucks-small.jpg" />
+    <Content Include="Content\Images\oil-trucks.jpg" />
     <Content Include="Content\Images\Oil_Tanker_Truck.png" />
     <Content Include="Content\Images\visit-us-facebook-300x94.png" />
     <Content Include="Content\print.css" />

@@ -9,10 +9,11 @@
                 <div class="large-7 columns">
                     <h1><span class="black">Welcome to Conger's</span><br /> <span class="orange">Heating</span> <span class="black">&amp;</span> <span class="blue">Cooling</span><span class="black">, Inc</span></h1>
                     <h2>When it comes to your home climate needs, we deliver!</h2>
+                    <br />
                 </div>
                 <div class="large-5 columns">
                     <ul class="bolded">
-                        <li>PO Box 92, Sterling, MA 01564</li>
+                        <li>PO Box 984, Barre, MA 01005</li>
                         <li><span class="blue">978.</span><span class="orange">728</span><span class="blue">.4757</span> <small>(office)</small> / <span class="blue">978.</span><span class="orange">870</span><span class="blue">.4945</span> <small>(emergency)</small></li>
                         <li>Free Estimates</li>
                         <li>Open from Monday - Friday 8 a.m. - 4 p.m.</li>
@@ -23,63 +24,74 @@
                 <div class="large-5 columns">
                     <p>Enroll in our autofill oil delivery program for peace of mind and never worry about running out of oil throughout the year.</p>
                     <p>
-                        With nearly 20 years of experience installing the finest heating and cooling equipment on the market, Conger's Heating &amp; Cooling, Inc is the
+                        With over 20 years of experience installing the finest heating and cooling equipment on the market, Conger's Heating &amp; Cooling, Inc is the
                         company you can trust for your home climate needs.
                     </p>
+                    <a href="https://www.facebook.com/CongersHeatingCooling/" target="_blank"><img src="~/Content/Images/visit-us-facebook-300x94.png" style="width:50%;display: block; margin-left: auto; margin-right: auto;" /></a>
+                    <div class="fb-like hide" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+                    <br />
+                    <br />
                 </div>
                 <div class="large-7 columns">
-                    <p><img src="~/Content/Images/oil-hvac-trucks.jpg" alt="Conger's Heating &amp; Cooling, Inc 978.728.4757" border="0" /></p>
+                    <p><img src="~/Content/Images/oil-trucks.jpg" alt="Conger's Heating &amp; Cooling, Inc 978.728.4757" border="0" style="display: block; margin-left: auto; margin-right: auto; " /></p>
                 </div>
             </div>
             <div class="row">
                 <div class="large-3 columns">
                     <p><a href="http://www.masssave.com" target="_blank"><img src="~/Content/Images/Logos/mass-save.jpg" alt="Explore numerous energy saving programs at Mass Save!" /></a></p>
-                    <br />
-                    <br />
-                    <a href="https://www.facebook.com/CongersHeatingCooling/" target="_blank"><img src="~/Content/Images/visit-us-facebook-300x94.png" /></a>
-                    <div class="fb-like hide" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                 </div>
                 <div class="large-9 columns">
-                    <div>
+                    <div style="vertical-align: middle;">
+                        <br /><br />
                         We are are committed to helping our customers however we can from saving energy and money to make each fill up last longer, or to simply ensure that they have resources
                         they need to weather the heating season comfortably. There are a number of exciting programs available from <a href="http://www.masssave.com" target="_blank">MassSave</a>
                         to <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">Fuel Asisstance programs</a>, see what ones will work for you!
                     </div>
-                    <br />
-                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-1 columns">
+                    &nbsp;
+                </div>
+                <div class="large-10 columns">
+                    <br/>
                     <div class="panel radius">
                         <div class="row">
                             <div class="large-2 columns">
                                 <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">
                                     <img src="~/Content/Images/Logos/NEFWC.png" alt="NEFWC Fuel Assistance Program" border="0" />
-                                    </a>
+                                </a>
                             </div>
-                            <div class="large-10 columns">
-                                <p class="small">We are a participating member of the <b class="blue">NEFWC Fuel Assistance Program.</b> <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">Sign up today!</a></p>
+                            <div class="large-10 columns" style="text-align: center;">
+                                <p class="small">We are a participating member of the <b class="blue">NEFWC Fuel Assistance Program.</b> <br/> <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">Sign up today!</a></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-            </div>
-            
-            <br />
-            <div class="panel radius">
-                <h2>Proudly Serving the Following Communities</h2>
-                <div class="flow">
-                    <ul>            
-                        @foreach( string town in Model.ServiceAreas.Distinct() ) {
-                            <li><b class="blue small">@town</b></li>
-                        }
-                    </ul>
+                <div class="large-1 columns">&nbsp;
                 </div>
-                <br/>
             </div>
-            @Html.Partial("_Footer")
+            <div class="row">
+                <div class="large-12 columns">
+                    <br />
+                    <div class="panel radius">
+                        <h2>Proudly Serving the Following Communities</h2>
+                        <div class="flow">
+                            <ul>
+                                @foreach (string town in Model.ServiceAreas.Distinct())
+                                {
+                                    <li><b class="blue small">@town</b></li>
+                                }
+                            </ul>
+                        </div>
+                        <br />
+                    </div>
+                    @Html.Partial("_Footer")
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 @section scripts {
     <script type="text/javascript">
         $(function () {

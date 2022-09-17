@@ -128,6 +128,11 @@ namespace CongerHeatingAndCooling.Controllers
 			{
 				pricingTierRepo.DeletePriceLevel(p);
 			});
+			var announcements = announcementRepo.Query().Where(a => a.EndDate == null || DateTime.Now <= a.EndDate);
+			var office = officeRepo.Query().Include(x => x.OfficeHours).First();
+
+			model.Announcements = announcements.ToList();
+			model.Office = office;
 
 			return View(model);
 		}
@@ -143,7 +148,7 @@ namespace CongerHeatingAndCooling.Controllers
 				ServiceAreas = pricingTier.ServiceAreas.ToList(),
 				PriceLevels = pricingTier.PriceLevels.ToList(),
 				Announcements = announcements.ToList(),
-				Office = office
+				Office = office,
 			};
 			return View(model);
 		}
