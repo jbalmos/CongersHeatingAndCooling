@@ -214,6 +214,12 @@
     <Content Include="Content\Images\fuel-gauge.png" />
     <Content Include="Content\Images\licensed-insured-free-estimates.png" />
     <Content Include="Content\Images\Logos\camp-out-cancer.png" />
+    <Content Include="Content\Images\Logos\chclogo-10yr-small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\Logos\chclogo-10yr.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\Logos\chclogo-small.png" />
     <Content Include="Content\Images\Logos\chclogo.png" />
     <Content Include="Content\Images\Logos\mass-save.jpg" />
