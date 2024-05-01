@@ -22,7 +22,9 @@
             </div>
             <div class="row">
                 <div class="large-5 columns">
-                    <p>Enroll in our autofill oil delivery program for peace of mind and never worry about running out of oil throughout the year.</p>
+                    <p>Our commitment to quality and service can't be beat, come see what we can offer today.</p>
+                        <p style="text-align: center;"><button id="dropletfuel" href="https://orders.dropletfuel.com/congers" target="_new">Order Oil Online!</button></p>
+                    <p>You may also enroll in our autofill oil delivery program for peace of mind and never worry about running out of oil throughout the year!</p>
                     <p>
                         Over 20 years of experience with all manner of heating and cooling systems expertise, Conger's Heating &amp; Cooling is the
                         company you can trust for your home climate needs. Please also review our additional services we provide from our
@@ -97,6 +99,10 @@
     <script type="text/javascript">
         $(function () {
             $('#newCustomerHref').on('click', function (event) {
+                event.preventDefault();
+                $('#newCustomerModal').foundation('reveal', 'open');
+            });
+            $('#dropletfuel').on('click', function (event) {
                 event.preventDefault();
                 $('#newCustomerModal').foundation('reveal', 'open');
             });
