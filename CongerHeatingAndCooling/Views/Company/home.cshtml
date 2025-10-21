@@ -23,20 +23,18 @@
             <div class="row">
                 <div class="large-5 columns">
                     <p>Our commitment to quality and service can't be beat, come see what we can offer today.</p>
-                        <p style="text-align: center;"><button id="dropletfuel" href="https://orders.dropletfuel.com/congers" target="_new">Order Oil Online!</button></p>
+                    <p style="text-align: center;"><button id="dropletfuel" href="https://orders.dropletfuel.com/congers" target="_new">Order Oil Online!</button> <button id="dropletfuel-account" href="https://orders.dropletfuel.com/congers/my-account/" target="_new">My Account</button></p>
                     <p>You may also enroll in our autofill oil delivery program for peace of mind and never worry about running out of oil throughout the year!</p>
                     <p>
                         Over 20 years of experience with all manner of heating and cooling systems expertise, Conger's Heating &amp; Cooling is the
                         company you can trust for your home climate needs. Please also review our additional services we provide from our
                         <a href="~/Company/Services">services directory</a>.
                     </p>
-                    <a href="https://www.facebook.com/CongersHeatingCooling/" target="_blank"><img src="~/Content/Images/visit-us-facebook-300x94.png" style="width:50%;display: block; margin-left: auto; margin-right: auto;" /></a>
-                    <div class="fb-like hide" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-                    <br />
-                    <br />
                 </div>
                 <div class="large-7 columns">
                     <p><img src="~/Content/Images/oil-trucks.jpg" alt="Conger's Heating &amp; Cooling, Inc 978.728.4757" border="0" style="display: block; margin-left: auto; margin-right: auto; " /></p>
+                    <a href="https://www.facebook.com/CongersHeatingCooling/" target="_blank"><img src="~/Content/Images/visit-us-facebook-300x94.png" style="width:40%;display: block; margin-left: auto; margin-right: auto;" /></a>
+                    <div class="fb-like hide" data-href="http://www.congersheatingandcooling.com/company/home" data-width="80" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
                 </div>
             </div>
             <div class="row">
@@ -48,7 +46,7 @@
                         <br /><br />
                         We are are committed to helping our customers however we can from saving energy and money to make each fill up last longer, or to simply ensure that they have resources
                         they need to weather the heating season comfortably. There are a number of exciting programs available from <a href="http://www.masssave.com" target="_blank">MassSave</a>
-                        to <a href="http://www.partnersforcommunity.org/default/index.cfm/fuel-assistance/" target="_blank">Fuel Asisstance programs</a>, see what ones will work for you!
+                        to the <a href="https://www.mocinc.org/fuelassistance" target="_blank">MOC Fuel Asisstance program</a>, see what ones will work for you!
                     </div>
                 </div>
             </div>
@@ -105,6 +103,10 @@
             $('#dropletfuel').on('click', function (event) {
                 event.preventDefault();
                 $('#newCustomerModal').foundation('reveal', 'open');
+            });
+            $('#dropletfuel-account').on('click', function (event) {
+                event.preventDefault();
+                window.open($('#myAccountHref').attr('href'));
             });
             $('#newCustomerModal button').on('click', function () {
                 $('#newCustomerModal').foundation('reveal', 'close');
