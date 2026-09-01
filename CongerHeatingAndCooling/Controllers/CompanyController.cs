@@ -49,7 +49,8 @@ namespace CongerHeatingAndCooling.Controllers
 			NavigationModel model = new NavigationModel {
 				PricePerGallon = price.FractionalHtmlFormattedPrice(),
 				MimimumGallons = price.GallonRangeStart.ToString(),
-				
+				DisplayPricing = price.PricingTier.ShowPricing,
+
 				Announcements = announcements.Where( x => !x.IsAlert ).Select( x => new Tuple<string, string>( x.Title, x.Content ) ).ToList()
 			};
 			if ( Session["AlertsTriggered"] == null ) {

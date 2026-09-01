@@ -86,6 +86,10 @@ else {
             @using ( Html.BeginForm( "Pricing", "Manage", FormMethod.Post, new { @id = "PricingForm", @data_abide = "" } ) ) {
             <h1>Pricing</h1>
             <br />
+            <p>
+                Display pricing in header:
+                @Html.CheckBoxFor(m => m.PricingTier.ShowPricing)
+            </p>
             @Html.HiddenFor( m => m.PricingTier.ID )
             <div class="row">
                 <div class="large-4 columns field-label">

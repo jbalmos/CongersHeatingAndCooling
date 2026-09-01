@@ -13,6 +13,7 @@ namespace CongerHeatingAndCooling.Models
 
 		public string PricePerGallon { get; set; }
 		public string MimimumGallons { get; set; }
+		public bool DisplayPricing { get; set; }
 		public List<Tuple<string,string>> Alerts {get;set;}
 		public List<Tuple<string, string>> Announcements { get; set; }
 
